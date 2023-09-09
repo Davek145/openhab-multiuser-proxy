@@ -63,10 +63,10 @@
 
     <section class="readme usertext">
         <article><h1>openHAB Multi-User support for the REST API v 2.0.1</h1>
-<p>This is fork of the the <a href="https://github.com/florian-h05/openhab-multiuser-proxy">project</a> and it is utilizing great work done by <a href="https://github.com/florian-h05">Florian Hotze</a>. Version 2 of openHAB MultiUser Proxy is expanded and adjusted to fully support MainUI of openHAB 3+ including filtering of Items and Pages.</p>
+<p><strong>NOTE:</strong> This is fork of the archived <a href="https://github.com/florian-h05/openhab-multiuser-proxy">openhab-multiuser-proxy project</a> and it is utilizing great work done by <a href="https://github.com/florian-h05">Florian Hotze</a>. Version 2 of openHAB MultiUser Proxy is expanded and adjusted to fully support MainUI of openHAB 3+ including filtering of Items and Pages.</p>
 <p>This project aims to provide a secure multiuser support for the <a href="https://www.openhab.org/docs/configuration/restdocs.html#openhab-rest-api">openHAB REST API</a>.
 It is utilising a NodeJS application and the popular <a href="https://www.nginx.com/">NGINX</a> webserver to proxy and filter requests to the REST API.</p>
-<p>Opposite to the <code>visibleTo</code> property available in openHAB filtering provided by the openHAB MultiUser Proxy is enabling true authorized access to Items/Pages/Sitemaps including access via REST API.</p>
+<p>Opposite to the <code>visibleTo</code> property available in openHAB, filtering provided by the openHAB MultiUser Proxy is enabling true authorized access to Items/Pages/Sitemaps including access via REST API.</p>
 <p><a href="https://github.com/standard/semistandard"><img src="https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg" alt="js-semistandard-style"></a>
 <a href="https://badge.fury.io/js/openhab-multiuser-proxy"><img src="https://badge.fury.io/js/openhab-multiuser-proxy.svg" alt="npm version"></a></p>
 <p><strong>DISCLAIMER:</strong> I DO NOT GUARANTEE that this project has no vulnerabilities a attacker could use.
@@ -91,64 +91,64 @@ As GPL-3.0 says, this project comes without any liability or warranty.</p>
 <li><a href="#firewall-setup">Firewall setup</a></li>
 </ul>
 <h2>Introduction</h2>
-<p>This project allows to set granular access control to Items, Pages and Sitemaps provided by openHAB. It allows to distinguish between individual users and provide them access only to approved Items/Pages/Sitemaps.</p>
+<p>This project allows to set granular access control to Items, Pages and Sitemaps provided by openHAB 3+. It allows to distinguish between individual users and provide them access only to approved Items/Pages/Sitemaps.</p>
 <p>Authentication of users is not utilizing internal authentication in openHAB.
-It relies on mTLS (client certificate auth) to get user id and org memberships used for the access authorization. For openHAB application all users are utilizing the implicit user role (need to be turned ON in API security setting of openHAB). OpenHAB authentication to access openHAB setting is possible only via the dedicated admin server instance.</p>
+It relies on mTLS (client certificate auth) to get user id and org memberships used for the access authorization. For openHAB application all users are utilizing the implicit user role (need to be turned ON in <a href="https://www.openhab.org/docs/configuration/restdocs.html">API security setting</a> of openHAB). OpenHAB authentication to access openHAB setting is possible only via the dedicated <a href="#admin-user">admin server instance</a>.</p>
 <p>Each client has its own username (as <em>Common Name</em>) and can be in multiple organizations (as dot seperated list in <em>Organizational Unit</em>), for certificate config refer to <a href="nginx/README.md#mtls-certificate-authority">mTLS Certificate Authority</a>.</p>
 <h2>ACL Tags</h2>
-<p>Version 2 of openHAB MultiUser Proxy is utilizing openHAB <a href="https://www.openhab.org/docs/configuration/items.html#tags">tagging</a> to define access of a client to Pages and Items.</p>
-<p>ACL Tag added to a Page or Item always consists of <code>ACL_PREFIX</code> (default <code>acl:</code>) followed user id or org that this ACL Tag grants access to. Example: <code>acl:john</code> <code>acl:guests</code>.</p>
-<p>If no ACL Tag is added to Page or Item, than only clients that are member of ADMIN_OU do have access to it.</p>
+<p>Version 2 of openHAB MultiUser Proxy is utilizing openHAB <a href="https://www.openhab.org/docs/configuration/items.html#tags">tagging</a> to set access of a client to Pages and Items.</p>
+<p>ACL Tag added to a Page or Item always consists of <code>ACL_PREFIX</code> (default <code>acl:</code>) followed user id or org that this ACL Tag grants access to. Example: <code>acl:john</code>, <code>acl:guests</code>.</p>
+<p>If no ACL Tag is added to a Page or an Item, than only clients that are members of ADMIN_OU do have access to it.</p>
 <p>There are two special orgs defined with pre-defined meaning:</p>
 <ul>
 <li><code>ADMIN_OU</code> (default <code>admin</code>) – Org for full admin access. Client that is member of this Org is having unrestricted access to openHAB.</li>
-<li><code>EVERYONE_OU</code> (default <code>everyone</code>) – Org that automatically include any authenticated client. If tag with EVERYONE_OU is added to Page or Item, all authenticated clients do have access to it.
-ADMIN_OU and EVERYONE_OU is defined in <a href="#configuration-options">configuration options</a>.</li>
+<li><code>EVERYONE_OU</code> (default <code>everyone</code>) – Org that automatically include any authenticated client. If tag with EVERYONE_OU is added to Page or Item, all authenticated clients do have access to it.</li>
 </ul>
+<p>ADMIN_OU and EVERYONE_OU is defined in <a href="#configuration-options">configuration options</a>.</p>
 <p>Tags can be added to Items by several means, e.g. in Items file, using MainUI, via rules and via Rest API.
 Tags to Pages can be currently added only via Rest API.</p>
 <h2>Access to MainUI pages</h2>
 <p>A client can access MainUI page if at least one of the following conditions is fulfilled:</p>
 <ul>
-<li>Page is having ACL tag that exactly matches client’s user id</li>
-<li>Page is having ACL tag that exactly matches one of client’s orgs</li>
-<li>Page is having ACL tag with EVERYONE_OU</li>
-<li>Client is member of ADMIN_OU org</li>
-<li>Page requested is <code>home</code> or <code>overview</code> that is necessary for load of MainUI</li>
+<li>Page is having ACL tag that exactly matches client’s user id;</li>
+<li>Page is having ACL tag that exactly matches one of client’s orgs;</li>
+<li>Page is having ACL tag with EVERYONE_OU;</li>
+<li>Client is member of ADMIN_OU org;</li>
+<li>Page requested is <code>home</code> or <code>overview</code> that is necessary for load of MainUI.</li>
 </ul>
-<p>Page <code>home</code>, that is displaying generated model tabs with Locations, Equipment and Properties, is filtered so that the client is provided only with authorized Items, including Location Items. It can also filter separators of empty sections in Locations tab.
-Access to MainUI pages is filtered both when accessed directly via <code>/page/{componentUID}</code> as well as when requested via REST API. If the Page is displayed at MainUI Sidebar, it is filtered out of the menu if access to the Page is not authorized.
-Items displayed on pages are filtered only in case list of displayed Items is generated via REST API. Hardcoded Items on authorized Page are always displayed, however, their state as well access to command is filtered.</p>
+<p>Page <code>home</code>, that is displaying generated model tabs with Locations, Equipment and Properties, is filtered so that the client is provided only with authorized Items (including Location Items). It can also filter separators of empty sections in Locations tab.</p>
+<p>Access to MainUI pages is filtered both when accessed directly via <code>/page/{componentUID}</code> as well as when requested via REST API. If the Page is displayed at MainUI Sidebar, it is filtered out of the menu if access to the Page is not authorized.</p>
+<p>Items displayed on pages are filtered only in case list of displayed Items is generated via REST API. Hardcoded Items on authorized Page are always displayed, however, their state as well access to command is filtered.</p>
 <h2>Access to Items</h2>
 <p>A client can access Item if at least one of the following conditions is fulfilled:</p>
 <ul>
-<li>Item is having ACL tag that exactly matches client’s user id</li>
-<li>Item is having ACL tag that exactly matches one of client’s orgs</li>
-<li>Item is having ACL tag with EVERYONE_OU</li>
-<li>Client is member of ADMIN_OU org</li>
+<li>Item is having ACL tag that exactly matches client’s user id;</li>
+<li>Item is having ACL tag that exactly matches one of client’s orgs;</li>
+<li>Item is having ACL tag with EVERYONE_OU;</li>
+<li>Client is member of ADMIN_OU org.</li>
 </ul>
 <p>Only the following Item operations are allowed:</p>
 <ul>
-<li>Get all available Items.</li>
-<li>Get a single Item.</li>
-<li>Get the state of an Item.</li>
-<li>Gets the item which defines the requested semantics of an Item.</li>
-<li>Send a command to an Item.</li>
+<li>Get all available Items;</li>
+<li>Get a single Item;</li>
+<li>Get the state of an Item;</li>
+<li>Get the item which defines the requested semantics of an Item;</li>
+<li>Send a command to an Item;</li>
 <li>Initiate and change Item state tracker connection.</li>
 </ul>
 <h2>Access to Sitemaps</h2>
 <p>A client can access a Sitemap if at least one of the following conditions is fulfilled:</p>
 <ul>
-<li>Sitemap name exactly matches with the client's user id</li>
-<li>Sitemap name exactly matches with one of the client's orgs</li>
-<li>Sitemap name includes one of the client's organizations at the beginning and before the <code>ORG_SEPARATOR</code> (default <code>_org_</code>)</li>
+<li>Sitemap name exactly matches with the client's user id;</li>
+<li>Sitemap name exactly matches with one of the client's orgs;</li>
+<li>Sitemap name includes one of the client's organizations at the beginning and before the <code>ORG_SEPARATOR</code> (default <code>_org_</code>).</li>
 </ul>
 <p>Example:
 A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em>administration</em> has access to:</p>
 <ul>
-<li>a Sitemap named <em>Florian</em></li>
-<li>a Sitemap named <em>family</em> or <em>administration</em></li>
-<li>every Sitemap whose name starts with <em>familiy_org_</em> or <em>administration_org_</em></li>
+<li>a Sitemap named <em>Florian</em>,</li>
+<li>a Sitemap named <em>family</em> or <em>administration</em>,</li>
+<li>every Sitemap whose name starts with <em>familiy_org_</em> or <em>administration_org_</em>.</li>
 </ul>
 <h2>Admin user</h2>
 <p>The admin user, identified by <code>$ADMIN_OU</code> in his OU, can access all Items/Pages/Sitemaps.</p>
@@ -164,7 +164,7 @@ A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em
 <li><code>sudo systemctl enable --now openhab-multiuser.service</code>
 <ul>
 <li>The service by default tries to connect to localhost as openHAB server and exposes itself on port 8090.</li>
-<li>Logging is performed on level info to <code>/var/log/openhab/multiuser-proxy.log</code> (JSON-formatted).</li>
+<li>Logging is performed on level info to <code>/var/log/openhab/multiuser-proxy.log</code>.</li>
 </ul>
 </li>
 <li>To change the configuration, edit the systemd file with <code>sudo systemctl edit --full openhab-multiuser.service</code></li>
@@ -200,7 +200,7 @@ A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em
 </tr>
 <tr>
 <td><code>PINO_LOG_LEVEL</code></td>
-<td>Log level, available: fatal, error, warn, info, debug, trace</td>
+<td>Log level, available: fatal, error, warn, info, debug, trace.</td>
 <td>none</td>
 <td>PINO_LOG_LEVEL</td>
 <td>PINO_LOG_LEVEL=info</td>
@@ -232,7 +232,7 @@ A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em
 </tr>
 <tr>
 <td><code>CACHE_TIME</code></td>
-<td>Time (in milliseconds) for caching Items/Pages/Sitemaps.</td>
+<td>Time (in milliseconds) for caching of Items/Pages/Sitemaps.</td>
 <td>none</td>
 <td>CACHE_TIME</td>
 <td>CACHE_TIME=300000</td>
@@ -240,7 +240,7 @@ A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em
 </tr>
 <tr>
 <td><code>CACHE_TIME_ACL</code></td>
-<td>Time (in milliseconds) for caching ACL for Items/Pages/Sitemaps.</td>
+<td>Time (in milliseconds) for caching of ACL for Items/Pages/Sitemaps.</td>
 <td>none</td>
 <td>CACHE_TIME=3600000</td>
 <td>CACHE_TIME</td>
@@ -274,9 +274,9 @@ A client with username <em>Florian</em> &amp; organizations <em>family</em>, <em
 </table>
 <p>These options can be set in the systemd file, either as param in <code>ExecStart</code> or as <code>Environment</code> variable.</p>
 <h3>Documentation</h3>
-<p>JSDoc documentation is available at https:// davek145.github.io/openhab-multiuser-proxy/nodejs/jsdoc/.
-For HTTP Routes documentation refer to <a href="doc/ROUTES.md">doc/ROUTES</a>.
-REST API documentation is local available at the <code>/swagger/</code> path.</p>
+<p>JSDoc documentation is available at <a href="https://davek145.github.io/openhab-multiuser-proxy/nodejs/jsdoc/">https://davek145.github.io/openhab-multiuser-proxy/nodejs/jsdoc/</a>.</p>
+<p>For HTTP Routes documentation refer to <a href="doc/ROUTES.md">doc/ROUTES</a>.</p>
+<p>REST API documentation is local available at the <code>/swagger/</code> path.</p>
 <h2>NGINX setup</h2>
 <p>Refer to <a href="nginx/README.md">nginx/README</a>.</p>
 <h2>Firewall setup</h2>
@@ -299,7 +299,7 @@ sudo ufw deny from any to any port 8090 comment &quot;openHAB Multi-User&quot;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:57:03 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
