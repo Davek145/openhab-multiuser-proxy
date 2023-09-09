@@ -87,6 +87,9 @@ Only the following Item operations are allowed:
 
 ## Access to Sitemaps
 
+**NOT MAINTAINED:** This is legacy Basic UI Sitemaps functionality and it is no longer maintained in version 2 of openHAB MultiUser Proxy.
+Functionality is provided and shall be working, however by default these routes are turned off in [nginx](nginx/README.md).
+
 A client can access a Sitemap if at least one of the following conditions is fulfilled:
 - Sitemap name exactly matches with the client's user id;
 - Sitemap name exactly matches with one of the client's orgs;
@@ -98,6 +101,7 @@ A client with username *Florian* & organizations *family*, *administration* has 
  - a Sitemap named *family* or *administration*,
  - every Sitemap whose name starts with *familiy_org_* or *administration_org_*.
 
+**WARNING:** Opposite to Pages, Items on a Sitemap are not filtered. If Item is included in approved Sitemap, its state will be shown even if the client is not having authorized access to this Item.
 
 ## Admin user
 
