@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/items/routes.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/items/routes.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { itemAllowedForClient, itemsFilterForClient } from './security.js';
+import { requireHeader } from './../middleware.js';
+import { backendInfo } from '../../server.js';
+import { getAllItems, getItem, getItemState, getItemSemantic, sendItemCommand, sendEventsItems } from './backend.js';
+
+const itemAccess = () => {
+  return async function (req, res, next) {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    try {
+      const allowed = await itemAllowedForClient(backendInfo.HOST, req, user, org, req.params.itemname);
+      if (allowed === true) {
+        next();
+      } else {
+        res.status(403).send();
+      }
+    } catch {
+      res.status(500).send();
+    }
+  };
+};
+
+/**
+ * Provide required /items routes.
+ *
+ * @memberof routes
+ * @param {*} app expressjs app
+ */
+const items = (app) => {
+  /**
+   * @swagger
+   * /auth/items:
+   *   get:
+   *     summary: Authorization endpoint for Item access.
+   *     description: Used by NGINX auth_request.
+   *     tags: [Auth]
+   *     parameters:
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-ORIGINAL-URI
+   *         required: true
+   *         description: Original request URI
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: Allowed
+   *       403:
+   *         description: Forbidden
+   */
+  app.get('/auth/items', requireHeader('X-OPENHAB-USER'), requireHeader('X-ORIGINAL-URI'), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    const regex = /\/items\/([a-zA-Z_0-9]+)/;
+    const itemname = regex.exec(req.headers['x-original-uri']);
+    if (itemname == null) return res.status(403).send();
+    try {
+      const allowed = await itemAllowedForClient(backendInfo.HOST, req, user, org, itemname[1]);
+      if (allowed === true) {
+        res.status(200).send();
+      } else {
+        res.status(403).send();
+      }
+    } catch {
+      res.status(500).send();
+    }
+  });
+
+  /**
+   * @swagger
+   * /rest/items:
+   *   get:
+   *     summary: Get all available Items.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: parameters
+   *         name: parameters
+   *         required: false
+   *         description: Query parameters from API (metadata, recursive, type, tags, fields)
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   */
+  app.get('/rest/items', requireHeader('X-OPENHAB-USER'), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    try {
+      const allItems = await getAllItems(backendInfo.HOST, req);
+      let filteredItems = [];
+      for (const i in allItems) {
+	if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i].name) === true) {
+	    let tempItem = allItems[i];
+	    const tempItem2 = allItems[i].members;
+	    //recursive filtering of member items
+	    if (Array.isArray(tempItem2)) {
+		tempItem.members = [];
+		const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem2);
+		tempItem.members = tempMembers;
+	    }
+	    filteredItems.push(tempItem);
+	}
+      }
+      res.status(200).send(filteredItems);
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });
+
+  /**
+   * @swagger
+   * /rest/items/{itemname}:
+   *   get:
+   *     summary: Gets a single Item.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: itemname
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: parameters
+   *         name: parameters
+   *         required: false
+   *         description: Query parameters from API (metadate, recursive)
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       403:
+   *         description: Item access forbidden
+   *       404:
+   *         description: Item not found
+   */
+  app.get('/rest/items/:itemname', requireHeader('X-OPENHAB-USER'), itemAccess(), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    try {
+        let response = await getItem(backendInfo.HOST, req, req.params.itemname);
+	const tempItem = response.json.members;
+	//recursive filtering of member items
+	if (Array.isArray(tempItem)) {
+	    response.json.members = [];
+	    const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem);
+	    response.json.members = tempMembers;
+	}
+        res.status(response.status).send(response.json);
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });
+
+  /**
+   * @swagger
+   * /rest/items/{itemname}/state:
+   *   get:
+   *     summary: Gets the state of an Item.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: itemname
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           text/plain:
+   *             schema:
+   *               type: string
+   *       403:
+   *         description: Item access forbidden
+   *       404:
+   *         description: Item not found
+   */
+  app.get('/rest/items/:itemname/state', requireHeader('X-OPENHAB-USER'), itemAccess(), async (req, res) => {
+    const response = await getItemState(backendInfo.HOST, req, req.params.itemname);
+    res.status(response.status).send(response.state);
+  });
+
+  /**
+   * @swagger
+   * /rest/items/{itemname}/semantic/{semanticClass}:
+   *   get:
+   *     summary: Gets the item which defines the requested semantics of an Item.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: itemname
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: path
+   *         name: semanticClass
+   *         required: true
+   *         description: Semantic class
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       403:
+   *         description: Item access forbidden
+   *       404:
+   *         description: Item not found
+   */
+  app.get('/rest/items/:itemname/semantic/:semanticClass', requireHeader('X-OPENHAB-USER'), itemAccess(), async (req, res) => {
+    const response = await getItemSemantic(backendInfo.HOST, req, req.params.itemname, req.params.semanticClass);
+    res.status(response.status).send(response.json);
+  });
+
+  /**
+   * @swagger
+   * /rest/items/{itemname}:
+   *   post:
+   *     summary: Sends a command to an Item.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: itemname
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     requestBody:
+   *       description: valid item command (e.g. ON, OFF, UP, DOWN, REFRESH)
+   *       required: true
+   *       content:
+   *         text/plain:
+   *           schema:
+   *             type: string
+   *     responses:
+   *       200:
+   *         description: OK
+   *       400:
+   *         description: Item command null
+   *       403:
+   *         description: Item access forbidden
+   *       404:
+   *         description: Item not found
+   */
+  app.post('/rest/items/:itemname', requireHeader('X-OPENHAB-USER'), itemAccess(), async (req, res) => {
+    const status = await sendItemCommand(backendInfo.HOST, req, req.params.itemname, req.body);
+    res.status(status).send();
+  });
+
+  /**
+   * @swagger
+   * /rest/events/states/{connectionId}:
+   *   post:
+   *     summary: Changes list of items a SSE connection will receive state updates to.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: connectionId
+   *         required: true
+   *         description: Connection ID
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     requestBody:
+   *       description: items list
+   *       required: true
+   *       content:
+   *         text/plain:
+   *           schema:
+   *             type: string
+   *     responses:
+   *       200:
+   *         description: OK
+   *       404:
+   *         description: Items not found / list is empty
+   */
+  app.post('/rest/events/states/:connectionId', requireHeader('X-OPENHAB-USER'), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    const allItems = req.body;
+    try {
+      let filteredItems = [];
+      for (const i in allItems) {
+	if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i]) === true) {
+	    filteredItems.push(allItems[i]);
+	}
+      }
+      const status = await sendEventsItems(backendInfo.HOST, req, req.params.connectionId, filteredItems);
+      res.status(status).send();
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });
+
+};
+
+export default items;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

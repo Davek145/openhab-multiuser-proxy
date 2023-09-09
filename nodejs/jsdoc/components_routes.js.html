@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/routes.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/routes.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import items from './items/routes.js';
+import pages from './pages/routes.js';
+import sitemaps from './sitemaps/routes.js';
+import { requireHeader } from './middleware.js';
+import { adminAllowedForClient } from './admin/security.js';
+import { ADMIN_OU } from '../server.js';
+
+/**
+ * Routes namespace. Providing routes.
+ *
+ * @namespace routes
+ */
+
+/**
+ * Main router.
+ *
+ * @memberof routes
+ * @param {*} app expressjs app
+ */
+export default (app) => {
+  /**
+   * @swagger
+     tags:
+	name: Auth
+	name: Items
+	name: Pages
+	name: Sitemaps
+   * /:
+   *   get:
+   *     summary: Retrieve server information.
+   *     responses:
+   *       200:
+   *         description: Server information.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   */
+  app.get('/', (req, res) => {
+    res.send({
+      name: process.env.npm_package_name,
+      description: 'Multi-User support for openHAB REST API with NGINX.',
+      purpose: 'This NodeJS application provides filters and access control mechanisms.',
+      author: 'Florian Hotze, David Kesl',
+      version: process.env.npm_package_version,
+      license: 'GNU GPL-3.0',
+      links: [
+        { type: 'swagger-doc', path: '/swagger/' },
+        { type: 'rest-api', path: '/rest' }
+      ]
+    });
+  });
+
+  /**
+   * @swagger
+   * /auth/admin:
+   *   get:
+   *     summary: Authorization endpoint whether client has admin privileges.
+   *     description: Used by nginx auth_request.
+   *     tags: [Auth]
+   *     parameters:
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: Allowed
+   *       403:
+   *         description: Forbidden
+   */
+  app.get('/auth/admin', requireHeader('X-OPENHAB-USER'), async (req, res) => {
+    const user = req.headers['x-openhab-user'];
+    const org = req.headers['x-openhab-org'] || '';
+    try {
+      const allowed = await adminAllowedForClient(user, org);
+      if (allowed === true) {
+        res.status(200).send();
+      } else {
+        res.status(403).send();
+      }
+    } catch {
+      res.status(500).send();
+    }
+  });
+
+  // Other routes
+  items(app);
+  pages(app);
+  sitemaps(app);
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

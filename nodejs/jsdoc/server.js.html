@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>server.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">server.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as dotenv from 'dotenv';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import express from 'express';
+import pino from 'pino-http';
+import logger from './logger.js';
+import swagger from './components/swagger.js';
+import routes from './components/routes.js';
+import { replaceSpaceHyphenWithUnderscore, formatOrgs } from './components/middleware.js';
+
+dotenv.config();
+
+// Argument parser
+const argv = yargs(hideBin(process.argv))
+  .option('port', {
+    alias: 'p',
+    describe: 'port for the api',
+    type: 'number'
+  })
+  .option('host', {
+    alias: 'o',
+    describe: 'openHAB hostname or IP-Address, e.g. http://10.10.10.2:8080',
+    type: 'string'
+  })
+  .demandCommand(0)
+  .parse();
+
+// Server variables.
+export const PORT = (argv.port !== undefined) ? argv.port : (process.env.PORT !== undefined) ? parseInt(process.env.PORT) : 8090;
+export const backendInfo = {
+  HOST: (argv.host !== undefined) ? argv.host : (process.env.HOST !== undefined) ? process.env.HOST : 'http://127.0.0.1:8080'
+};
+/**
+ * Administrator Organizational Unit.
+ * Defaults to admin
+ */
+export const ADMIN_OU = process.env.ADMIN_OU || 'admin';
+/**
+ * Everyone Organizational Unit.
+ * Defaults to everyone
+ */
+export const EVERYONE_OU = process.env.EVERYONE_OU || 'everyone';
+/**
+ * Time to cache sitemaps/pages/items in milliseconds.
+ * Defaults to 300000 ms = 5 min.
+ */
+export const CACHE_TIME = process.env.CACHE_TIME || 300000;
+
+/**
+ * Time to cache ACL for sitemaps/pages/items in milliseconds.
+ * Defaults to 3600000 ms = 60 min.
+ */
+export const CACHE_TIME_ACL = process.env.CACHE_TIME_ACL || 3600000;
+
+/**
+ * Prefix of the access control tag for Items and Pages.
+ * Defaults to acl:
+ */
+export const ACL_PREFIX = process.env.ACL_PREFIX || 'acl:';
+logger.debug(`Access control prefix is ${ACL_PREFIX}`);
+
+/**
+ * Separates the organization name at beginning of Sitemap name from the full name.
+ *
+ * @memberof sitemapsSecurity
+ */
+export const ORG_SEPARATOR = process.env.ORG_SEPARATOR || '_org_';
+logger.debug(`Organization separator is ${ORG_SEPARATOR}`);
+
+/**
+ * Remove separators of empty section in filtered home page.
+ * Defaults to true
+ */
+export const HOME_SEPARATOR = process.env.HOME_SEPARATOR || 'true';
+
+const app = express();
+
+// Server setup.
+app.set('trust proxy', 'loopback');
+app.use(replaceSpaceHyphenWithUnderscore(['X-OPENHAB-USER', 'X-OPENHAB-ORG']));
+app.use(formatOrgs());
+app.disable('x-powered-by');
+app.disable('etag');
+app.use(express.json());
+app.use(express.text());
+app.use(pino({
+  logger: logger,
+  customLogLevel: function (req, res, err) {
+    if (res.statusCode >= 400 &amp;&amp; res.statusCode &lt; 500) { // Client error
+      return 'trace';
+    } else if (res.statusCode >= 500 || err) { // Server error
+      return 'error';
+    } else if (res.statusCode >= 300 &amp;&amp; res.statusCode &lt; 400) { // Redirections
+      return 'silent';
+    } else if (res.statusCode >= 200 &amp;&amp; res.statusCode &lt; 300) { // Success
+      return 'silent';
+    }
+    return 'info';
+  }
+})); // High-speed HTTP logger for Node.js
+
+// Use routes.
+swagger(app);
+routes(app);
+
+// Server activation.
+app.listen(PORT, () => {
+  logger.info(`Listening on port ${PORT}`);
+  logger.info(`openHAB host is ${backendInfo.HOST}`);
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

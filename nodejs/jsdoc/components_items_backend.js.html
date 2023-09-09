@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/items/backend.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/items/backend.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import logger from './../../logger.js';
+import fetch from 'node-fetch';
+import { getHeaders } from '../../utils.js';
+import { itemsListDb, itemsForUserDb } from '../../db.js';
+import { CACHE_TIME, CACHE_TIME_ACL, ADMIN_OU, EVERYONE_OU, ACL_PREFIX } from '../../server.js';
+
+/**
+ * Items backend namespace. Providing access to the openHAB backend.
+ *
+ * @namespace itemsBackend
+ */
+
+/**
+ * Gets all Items.
+ * Utilising LokiJS to cache the Items list for better performance.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @returns {Object} Object: { json: JSON reponse, status: HTTP status code }
+ */
+export const getAllItems = async function (HOST, expressReq) {
+  //process only query parameters defined in API
+  let query = '';
+  if (expressReq.query.metadata) query = 'metadata=' + expressReq.query.metadata;
+  if (expressReq.query.recursive) {
+    if (query) query = query + '&amp;';
+    query = query + 'recursive=' + expressReq.query.recursive;
+  }
+  if (expressReq.query.type) {
+    if (query) query = query + '&amp;';
+    query = query + 'type=' + expressReq.query.type;
+  }
+  if (expressReq.query.tags) {
+    if (query) query = query + '&amp;';
+    query = query + 'tags=' + expressReq.query.tags;
+  }
+  if (expressReq.query.fields) {
+    if (query) query = query + '&amp;';
+    query = query + 'fields=' + expressReq.query.fields;
+  }
+
+  const now = Date.now();
+  const itemsList = itemsListDb.findOne({ name: query });
+  if (itemsList) {
+    if (now &lt; itemsList.lastupdate + CACHE_TIME) {
+      // Currently stored version not older than CACHE_TIME.
+      logger.debug('getAllItems(): Found in database and not older than CACHE_TIME.');
+      return itemsList.json;
+    }
+    itemsListDb.findAndRemove({ name: query });
+  }
+
+  const headers = await getHeaders(expressReq);
+  if (query) query = '?' + query;
+  try {
+    const response = await fetch(HOST + '/rest/items' + query, { headers: headers });
+    const json = await response.json();
+    itemsListDb.insert({ name: query, lastupdate: now, json: json });
+    const status = response.status;
+    logger.debug(`getAllItems(): Successfully requested backend ${HOST + '/rest/items' + query}, HTTP response code ${status}`);
+    return json;
+  } catch (err) {
+    const error = new Error(`getAllItems(): An error occurred while getting all Items from ${HOST + '/rest/items' + query}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Gets a single Item by itemname.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} itemname Item name
+ * @returns {Object} Object: { json: JSON reponse, status: HTTP status code }
+ */
+export const getItem = async function (HOST, expressReq, itemname) {
+  const headers = await getHeaders(expressReq);
+ 
+  //process only query parameters defined in API
+  let query = '';
+  if (expressReq.query.metadata) query = 'metadata=' + expressReq.query.metadata;
+  if (expressReq.query.recursive) {
+    if (query) query = query + '&amp;';
+    query = query + 'recursive=' + expressReq.query.recursive;
+  }
+  if (query) query = '?' + query;
+
+  try {
+    const response = await fetch(HOST + '/rest/items/' + itemname + query, { headers: headers });
+    const json = await response.json();
+    const status = response.status;
+    logger.debug(`getItem(): Successfully requested backend ${HOST + '/rest/items/' + itemname + query}, HTTP response code ${status}`);
+    return {
+      json: json,
+      status: status
+    };
+  } catch (err) {
+    const error = new Error(`getItem(): An error occurred when requesting backend ${HOST + '/rest/items/' + itemname + query}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Gets itemnames's of all allowed Items for a user.
+ * Utilising LokiJS to cache filtered Items list for better performance.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} user username
+ * @param {String|Array&lt;String>} org organizations the user is member of
+ * @returns {Array&lt;String>} itemname's of items allowed for a user
+ */
+export const getItemsForUser = async function (HOST, expressReq, user, org) {
+  if (!user) throw Error('Parameter user is required!');
+  if (!org) org = [];
+  if (typeof org === 'string') org = org.toString().split('.');
+
+  const now = Date.now();
+  const storedItems = itemsForUserDb.findOne({ name: user });
+  if (storedItems) {
+    if (now &lt; storedItems.lastupdate + CACHE_TIME_ACL) {
+      // Currently stored version not older than CACHE_TIME_ACL.
+      logger.debug('getItemsForUser(): Found in database and not older than CACHE_TIME_ACL.');
+      return storedItems.items;
+    }
+    itemsForUserDb.findAndRemove({ name: user });
+  }
+
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/items?recursive=false&amp;fields=name%2C%20tags', { headers: headers });
+    const allItems = await response.json();
+    let filteredItems = [];
+    if (org.includes(ADMIN_OU)) {
+	//Member of ADMIN_OU has full access
+	filteredItems = allItems;
+    } else {
+        for (const i in allItems) {
+		for (const j in allItems[i].tags) {
+		    if (allItems[i].tags[j].startsWith(ACL_PREFIX)) {
+			if (allItems[i].tags[j].substring(ACL_PREFIX.length) === user ||
+			    org.includes(allItems[i].tags[j].substring(ACL_PREFIX.length)) ||
+			    allItems[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
+			    //Access allow when tags include user name, user org or EVERYONE_OU
+			    filteredItems.push(allItems[i].name);
+			}
+		    }
+		}
+	}
+    }
+    itemsForUserDb.insert({ name: user, lastupdate: now, items: filteredItems });
+    const status = response.status;
+    logger.debug(`getItemsForUser(): Successfully requested backend ${HOST + '/rest/items?recursive=false&amp;fields=name%2C%20tags'}, HTTP response code ${status}`);
+    return filteredItems;
+  } catch (err) {
+    const error = new Error(`getItemsForUser(): An error occurred while getting all Items from ${HOST + '/rest/items?recursive=false&amp;fields=name%2C%20tags'}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Gets the state of an Item.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} itemname Item name
+ * @returns {Object} Object: { state: Item state, status: HTTP status code }
+ */
+export const getItemState = async function (HOST, expressReq, itemname) {
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/items/' + itemname + '/state', { headers: headers });
+    const state = await response.text();
+    const status = response.status;
+    logger.debug(`getItemState(): Got state ${state} from ${HOST + '/rest/items/' + itemname + '/state'}, HTTP response code ${status}`);
+    return {
+      state: state,
+      status: status
+    };
+  } catch (err) {
+    const error = new Error(`getItemState(): An error occurred while getting state from ${HOST + '/rest/items/' + itemname + '/state'}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Gets the item which defines the requested semantics of an Item.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} itemname Item name
+ * @returns {Object} Object: { json: JSON reponse, status: HTTP status code }
+ */
+export const getItemSemantic = async function (HOST, expressReq, itemname, semanticClass) {
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/items/' + itemname + '/semantic/' + semanticClass, { headers: headers });
+    const json = await response.json();
+    const status = response.status;
+    logger.debug(`getItemSemantic(): Got Item ${itemname} from ${HOST + '/rest/items/' + itemname + '/semantic/' + semanticClass}, HTTP response code ${status}`);
+    return {
+      json: json,
+      status: status
+    };
+  } catch (err) {
+    const error = new Error(`getItemSemantic(): An error occurred while getting semantics from ${HOST + '/rest/items/' + itemname + '/semantic/' + semanticClass}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Sends a command to an Item.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} itemname Item name
+ * @param {String} command valid item command (e.g. ON, OFF, UP, DOWN, REFRESH)
+ * @returns {Integer} Response code from backend
+ */
+export const sendItemCommand = async function (HOST, expressReq, itemname, command) {
+  const headers = await getHeaders(expressReq);
+  Object.assign(headers, {accept: '*/*'});
+  Object.assign(headers, {'content-type': 'text/plain'});
+  try {
+    const status = await (await fetch(HOST + '/rest/items/' + itemname, { headers: headers, method: 'POST', body: command })).status;
+    logger.debug(`sendItemCommand(): Sent command ${command} to ${HOST + '/rest/items/' + itemname}, HTTP response code ${status}`);
+    return status;
+  } catch (err) {
+    const error = new Error(`sendItemCommand(): An error occurred while sending command to ${HOST + '/rest/items/' + itemname}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Sends list of items a SSE connection will receive state updates to.
+ *
+ * @memberof itemsBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} connectionId Connection ID
+ * @param {String} items Items list
+ * @returns {Integer} Response code from backend
+ */
+export const sendEventsItems = async function (HOST, expressReq, connectionId, items) {
+  const headers = await getHeaders(expressReq);
+  Object.assign(headers, {accept: '*/*'});
+  Object.assign(headers, {'content-type': 'application/json'});
+  try {
+    const status = await (await fetch(HOST + '/rest/events/states/' + connectionId, { headers: headers, method: 'POST', body: JSON.stringify(items) })).status;
+    logger.debug(`sendEventsItems(): Sent items list to ${HOST + '/rest/events/states/' + connectionId}, HTTP response code ${status}`);
+    return status;
+  } catch (err) {
+    const error = new Error(`sendEventsItems(): An error occurred while sending items list to ${HOST + '/rest/events/states/' + connectionId}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

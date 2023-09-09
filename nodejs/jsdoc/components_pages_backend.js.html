@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/pages/backend.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/pages/backend.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import logger from './../../logger.js';
+import fetch from 'node-fetch';
+import { getHeaders } from '../../utils.js';
+import { pagesListDb, pagesForUserDb } from '../../db.js';
+import { CACHE_TIME, CACHE_TIME_ACL, ADMIN_OU, EVERYONE_OU, ACL_PREFIX } from '../../server.js';
+
+/**
+ * Pages backend namespace. Providing access to the openHAB backend.
+ *
+ * @namespace pagesBackend
+ */
+
+/**
+ * Gets all available Pages.
+ * Utilising LokiJS to cache the Pages list for better performance.
+ *
+ * @memberof pagesBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @returns {Object} Object: { json: JSON reponse, status: HTTP status code }
+ */
+export const getAllPages = async function (HOST, expressReq) {
+  const now = Date.now();
+  const pagesList = pagesListDb.findOne({ name: 'list' });
+  if (pagesList) {
+    if (now &lt; pagesList.lastupdate + CACHE_TIME) {
+      // Currently stored version not older than CACHE_TIME.
+      logger.debug('getAllPages(): Found in database and not older than CACHE_TIME.');
+      return pagesList.json;
+    }
+    pagesListDb.findAndRemove({ name: 'list' });
+  }
+
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/ui/components/ui%3Apage', { headers: headers });
+    const json = await response.json();
+    pagesListDb.insert({ name: 'list', lastupdate: now, json: json });
+    const status = response.status;
+    logger.debug(`getAllItems(): Successfully requested backend ${HOST + '/rest/ui/components/ui:page'}, HTTP response code ${status}`);
+    return json;
+  } catch (err) {
+    const error = new Error(`getAllPages(): An error occurred while getting all Pages from ${HOST + '/rest/ui/components/ui:page'}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Get a single Page by uid(name).
+ *
+ * @memberof pagesBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} pageUid Uid(name) of page
+ * @returns {Object} Object: { json: JSON reponse, status: HTTP status code }
+ */
+export const getPage = async function (HOST, expressReq, pageUid) {
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/ui/components/ui%3Apage/' + pageUid, { headers: headers });
+    const json = await response.json();
+    const status = response.status;
+    logger.debug(`getPage(): Successfully requested backend ${HOST + '/rest/ui/components/ui:page/' + pageUid}, HTTP response code ${status}`);
+    return {
+      json: json,
+      status: status
+    };
+  } catch (err) {
+    const error = new Error(`getPage(): An error occurred when requesting backend ${HOST + '/rest/ui/components/ui:page/' + pageUid}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};
+
+/**
+ * Gets uid's of all allowed Pages for a user.
+ * Utilising LokiJS to cache filtered Pages list for better performance.
+ *
+ * @memberof pagesBackend
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} user username
+ * @param {String|Array&lt;String>} org organizations the user is member of
+ * @returns {Array&lt;String>} uid's of pages allowed for a user
+ */
+export const getPagesForUser = async function (HOST, expressReq, user, org) {
+  if (!user) throw Error('Parameter user is required!');
+  if (!org) org = [];
+  if (typeof org === 'string') org = org.toString().split('.');
+
+  const now = Date.now();
+  const storedPages = pagesForUserDb.findOne({ name: user });
+  if (storedPages) {
+    if (now &lt; storedPages.lastupdate + CACHE_TIME_ACL) {
+      // Currently stored version not older than CACHE_TIME_ACL.
+      logger.debug('getPagesForUser(): Found in database and not older than CACHE_TIME_ACL.');
+      return storedPages.pages;
+    }
+    pagesForUserDb.findAndRemove({ name: user });
+  }
+
+  const headers = await getHeaders(expressReq);
+  try {
+    const response = await fetch(HOST + '/rest/ui/components/ui%3Apage?summary=true', { headers: headers });
+    const allPages = await response.json();
+    let filteredPages = [];
+    if (org.includes(ADMIN_OU)) {
+	//Member of ADMIN_OU has full access
+	filteredPages = allPages;
+    } else {
+        for (const i in allPages) {
+	    if (allPages[i].uid === 'home' || allPages[i].uid === 'overview') {
+		//Default OH page 'home' and 'overview' is allways allowed, otherwise MainUI does not load
+		filteredPages.push(allPages[i].uid);
+	    } else {
+		for (const j in allPages[i].tags) {
+		    if (allPages[i].tags[j].startsWith(ACL_PREFIX)) {
+			if (allPages[i].tags[j].substring(ACL_PREFIX.length) === user || 
+			    org.includes(allPages[i].tags[j].substring(ACL_PREFIX.length)) || 
+			    allPages[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
+			    //Access allow when tags include user name, user org or EVERYONE_OU
+			    filteredPages.push(allPages[i].uid);
+        		}
+		    }
+		}
+	    }
+	}
+    }
+    pagesForUserDb.insert({ name: user, lastupdate: now, pages: filteredPages });
+    const status = response.status;
+    logger.debug(`getPagesForUser(): Successfully requested backend ${HOST + '/rest/ui/components/ui:page?summary=true'}, HTTP response code ${status}`);
+    return filteredPages;
+  } catch (err) {
+    const error = new Error(`getPagesForUser(): An error occurred while getting all Pages from ${HOST + '/rest/ui/components/ui:page?summary=true'}: ${err}`);
+    logger.error(error);
+    error();
+  }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/pages/security.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="adminSecurity.html">adminSecurity</a><ul class='members'><li data-type='member'><a href="adminSecurity.html#.exports.adminAllowedForClient">exports.adminAllowedForClient</a></li></ul></li><li><a href="itemsBackend.html">itemsBackend</a><ul class='members'><li data-type='member'><a href="itemsBackend.html#.exports.getAllItems">exports.getAllItems</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItem">exports.getItem</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemsForUser">exports.getItemsForUser</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemState">exports.getItemState</a></li><li data-type='member'><a href="itemsBackend.html#.exports.getItemSemantic">exports.getItemSemantic</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendItemCommand">exports.sendItemCommand</a></li><li data-type='member'><a href="itemsBackend.html#.exports.sendEventsItems">exports.sendEventsItems</a></li></ul></li><li><a href="itemsSecurity.html">itemsSecurity</a><ul class='members'><li data-type='member'><a href="itemsSecurity.html#.exports.itemAllowedForClient">exports.itemAllowedForClient</a></li><li data-type='member'><a href="itemsSecurity.html#.exports.itemsFilterForClient">exports.itemsFilterForClient</a></li></ul></li><li><a href="middlewares.html">middlewares</a><ul class='members'><li data-type='member'><a href="middlewares.html#.exports.requireHeader">exports.requireHeader</a></li><li data-type='member'><a href="middlewares.html#.exports.replaceSpaceHyphenWithUnderscore">exports.replaceSpaceHyphenWithUnderscore</a></li><li data-type='member'><a href="middlewares.html#.exports.formatOrgs">exports.formatOrgs</a></li></ul></li><li><a href="pagesBackend.html">pagesBackend</a><ul class='members'><li data-type='member'><a href="pagesBackend.html#.exports.getAllPages">exports.getAllPages</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPage">exports.getPage</a></li><li data-type='member'><a href="pagesBackend.html#.exports.getPagesForUser">exports.getPagesForUser</a></li></ul></li><li><a href="pagesSecurity.html">pagesSecurity</a><ul class='members'><li data-type='member'><a href="pagesSecurity.html#.exports.pageAllowedForClient">exports.pageAllowedForClient</a></li><li data-type='member'><a href="pagesSecurity.html#.exports.pageFilterHome">exports.pageFilterHome</a></li></ul></li><li><a href="routes.html">routes</a><ul class='methods'><li data-type='method'><a href="routes.html#.items">items</a></li><li data-type='method'><a href="routes.html#.pages">pages</a></li><li data-type='method'><a href="routes.html#.module.exports">module.exports</a></li><li data-type='method'><a href="routes.html#.sitemaps">sitemaps</a></li></ul></li><li><a href="sitemapsBackend.html">sitemapsBackend</a><ul class='members'><li data-type='member'><a href="sitemapsBackend.html#.exports.getAllSitemaps">exports.getAllSitemaps</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getSitemap">exports.getSitemap</a></li><li data-type='member'><a href="sitemapsBackend.html#.exports.getItemsOfSitemap">exports.getItemsOfSitemap</a></li></ul></li><li><a href="sitemapsSecurity.html">sitemapsSecurity</a><ul class='members'><li data-type='member'><a href="sitemapsSecurity.html#.exports.sitemapAllowedForClient">exports.sitemapAllowedForClient</a></li><li data-type='member'><a href="sitemapsSecurity.html#.exports.ORG_SEPARATOR">exports.ORG_SEPARATOR</a></li></ul></li><li><a href="lokijs.html">lokijs</a><ul class='members'><li data-type='member'><a href="lokijs.html#.exports.itemsOfSitemapDb">exports.itemsOfSitemapDb</a></li><li data-type='member'><a href="lokijs.html#.exports.sitemapsListDb">exports.sitemapsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesListDb">exports.pagesListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsListDb">exports.itemsListDb</a></li><li data-type='member'><a href="lokijs.html#.exports.pagesForUserDb">exports.pagesForUserDb</a></li><li data-type='member'><a href="lokijs.html#.exports.itemsForUserDb">exports.itemsForUserDb</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.exports.findKeyInObj">exports.findKeyInObj</a></li><li data-type='member'><a href="utils.html#.exports.getHeaders">exports.getHeaders</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/pages/security.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import logger from './../../logger.js';
+import { getPagesForUser } from './backend.js';
+import { getItemsForUser } from './../items/backend.js';
+import { ADMIN_OU, HOME_SEPARATOR } from '../../server.js';
+
+/**
+ * Pages security namespace. Provides security checks for Page access.
+ *
+ * @namespace pagesSecurity
+ */
+
+/**
+ * Check whether Page access is allowed for client.
+ * Must be used with await in async functions.
+ *
+ * @memberof pagesSecurity
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} user username
+ * @param {String|Array&lt;String>} org organizations the client is member of
+ * @param {String} pageUid name of Page
+ * @returns {Boolean} whether Page access is allowed or not
+ */
+export const pageAllowedForClient = async function (HOST, expressReq, user, org, pageUid) {
+  if (typeof org === 'string') org = org.toString().split('.');
+  if (org.includes(ADMIN_OU)) {
+    logger.info({ user: user, orgs: org }, `pageAllowedForClient(): Page ${pageUid} allowed: true due to admin privileges`);
+    return true;
+  }
+  try {
+    const userPages = await getPagesForUser(HOST, expressReq, user, org);
+    const allowed = userPages.includes(pageUid);
+    logger.info({ user: user, orgs: org }, `pageAllowedForClient(): Page ${pageUid} allowed: ${allowed}`);
+    return allowed;
+  } catch (err) {
+    logger.error(err);
+    return false;
+  }
+};
+
+/**
+ * Filter home page to include only location allowed for the client
+ * Must be used with await in async functions.
+ *
+ * @memberof pagesSecurity
+ * @param {String} HOST hostname of openHAB server
+ * @param {*} expressReq request object from expressjs
+ * @param {String} user username
+ * @param {String|Array&lt;String>} org organizations the client is member of
+ * @param {String} full original home page to filter
+ * @returns {String} filtered home page
+ */
+export const pageFilterHome = async function (HOST, expressReq, user, org, origHome) {
+  if (typeof org === 'string') org = org.toString().split('.');
+  if (org.includes(ADMIN_OU)) {
+    logger.info({ user: user, orgs: org }, `pageFilterHome(): Home page allowed in full due to admin privileges`);
+    return origHome;
+  }
+  try {
+    const userItems = await getItemsForUser(HOST, expressReq, user, org);
+    let filteredHome = origHome;
+    const allCards = origHome.slots.locations[0].config.cardOrder;
+    let filteredCards = [];
+    let excludedCards = origHome.slots.locations[0].config.excludedCards;
+    for (let i = 0; i &lt; allCards.length; i++) {
+	if (allCards[i].hasOwnProperty('separator')) {
+	    //separator
+	    filteredCards.push(allCards[i]);
+	} else {
+	    //filter current location item
+	    const allowed = userItems.includes(allCards[i]);
+	    if (allowed  === true) {
+		filteredCards.push(allCards[i]);
+	    } else {
+		excludedCards.push(allCards[i]);
+	    }
+	    logger.info({ user: user, orgs: org }, `pageFilterHome(): Card ${allCards[i]} allowed: ${allowed}`);
+	}
+    }
+    if (HOME_SEPARATOR == 'true') {
+	//remove separator for empty location section
+	let tempCards = [];
+	for (let i = 0; i &lt; filteredCards.length; i++) {
+	    if (filteredCards[i].hasOwnProperty('separator')) {
+		if (i &lt; (filteredCards.length - 1)) {
+		    if (!(filteredCards[i+1].hasOwnProperty('separator'))) tempCards.push(filteredCards[i]);
+		}
+	    } else {
+		tempCards.push(filteredCards[i]);
+	    }
+	}
+	filteredCards = tempCards;
+    }
+    filteredHome.slots.locations[0].config.cardOrder = filteredCards;
+    filteredHome.slots.locations[0].config.excludedCards = excludedCards;
+    return filteredHome;
+  } catch (err) {
+    logger.error(err);
+    return [];
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Sep 09 2023 22:03:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
