@@ -1,7 +1,7 @@
-import { getAllSitemapsFiltered } from './backend.js';
+import { sitemapAllowedForClient } from './security.js';
 import { requireHeader } from './../middleware.js';
 import { backendInfo } from '../../server.js';
-import { sitemapAllowedForClient } from './security.js';
+import { getAllSitemaps, getSitemap } from './backend.js';
 import proxy from 'express-http-proxy';
 
 const sitemapAccess = () => {
@@ -30,52 +30,11 @@ const sitemapAccess = () => {
 const sitemaps = (app) => {
   /**
    * @swagger
-   * /rest/sitemaps:
-   *   get:
-   *     summary: Get all available sitemaps.
-   *     parameters:
-   *       - in: header
-   *         name: X-OPENHAB-USER
-   *         required: true
-   *         description: Name of user
-   *         schema:
-   *           type: string
-   *         style: form
-   *       - in: header
-   *         name: X-OPENHAB-ORG
-   *         required: false
-   *         description: Organisations the user is member of
-   *         schema:
-   *           type: string
-   *         style: form
-   *     responses:
-   *       200:
-   *         description: OK
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: array
-   *               items:
-   *                 type: object
-   */
-  app.get('/rest/sitemaps', requireHeader('X-OPENHAB-USER'), async (req, res) => {
-    const org = req.headers['x-openhab-org'] || '';
-    const user = req.headers['x-openhab-user'];
-
-    try {
-      const data = await getAllSitemapsFiltered(backendInfo.HOST, req, user, org);
-      res.status(200).send(data);
-    } catch {
-      res.status(500).send();
-    }
-  });
-
-  /**
-   * @swagger
    * /auth/sitemaps:
    *   get:
    *     summary: Authorization endpoint for Sitemap access.
-   *     description: Used by nginx auth_request.
+   *     description: Used by NGINX auth_request.
+   *     tags: [Auth]
    *     parameters:
    *       - in: header
    *         name: X-OPENHAB-USER
@@ -107,7 +66,7 @@ const sitemaps = (app) => {
   app.get('/auth/sitemaps', requireHeader('X-OPENHAB-USER'), requireHeader('X-ORIGINAL-URI'), (req, res, next) => {
     const org = req.headers['x-openhab-org'] || '';
     const user = req.headers['x-openhab-user'];
-    const regex = /\/(sitemaps|page)\/([a-zA-Z_0-9]+)/;
+    const regex = /(\?|&)sitemap=([a-zA-Z_0-9]+)[&]?/;
     const sitemapname = regex.exec(req.headers['x-original-uri']);
     if (sitemapname == null) return res.status(403).send();
     try {
@@ -124,9 +83,59 @@ const sitemaps = (app) => {
 
   /**
    * @swagger
+   * /rest/sitemaps:
+   *   get:
+   *     summary: Get all available sitemaps.
+   *     tags: [Sitemaps]
+   *     parameters:
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   */
+  app.get('/rest/sitemaps', requireHeader('X-OPENHAB-USER'), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    try {
+      const allSitemaps = await getAllSitemaps(backendInfo.HOST, req);
+      let filteredSitemaps = [];
+      for (const i in allSitemaps) {
+	if (await sitemapAllowedForClient(user, org, allSitemaps[i].name) === true) {
+	    filteredSitemaps.push(allSitemaps[i]);
+	}
+      }
+      res.status(200).send(filteredSitemaps);
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });
+
+  /**
+   * @swagger
    * /rest/sitemaps/{sitemapname}:
    *   get:
-   *     summary: Get sitemap by name.
+   *     summary: Get a sitemap by name.
+   *     tags: [Sitemaps]
    *     parameters:
    *       - in: path
    *         name: sitemapname
@@ -156,14 +165,27 @@ const sitemaps = (app) => {
    *           application/json:
    *             schema:
    *               type: object
+   *       403:
+   *         description: Sitemap access forbidden
+   *       404:
+   *         description: Sitemap not found
    */
-  app.get('/rest/sitemaps/:sitemapname', requireHeader('X-OPENHAB-USER'), sitemapAccess(), proxy(backendInfo.HOST + '/rest/sitemaps'));
+  app.get('/rest/sitemaps/:sitemapname', requireHeader('X-OPENHAB-USER'), sitemapAccess(), async (req, res) => {
+    try {
+      const response = await getSitemap(backendInfo.HOST, req, req.params.sitemapname);
+      res.status(response.status).send(response.json);
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });
 
   /**
    * @swagger
    * /rest/sitemaps/{sitemapname}/{pageid}:
    *   get:
-   *     summary: Get sitemap by name.
+   *     summary: Polls the data for a sitemap.
+   *     tags: [Sitemaps]
    *     parameters:
    *       - in: path
    *         name: sitemapname
@@ -201,13 +223,14 @@ const sitemaps = (app) => {
    *             schema:
    *               type: object
    */
-  app.get('/rest/sitemaps/:sitemapname/:pageid', requireHeader('X-OPENHAB-USER'), sitemapAccess(), proxy(backendInfo.HOST + '/rest/sitemaps/'));
+  //app.get('/rest/sitemaps/:sitemapname/:pageid', requireHeader('X-OPENHAB-USER'), sitemapAccess(), proxy(backendInfo.HOST + '/rest/sitemaps/'));
 
   /**
    * @swagger
    * /rest/sitemaps/events/{subscriptionid}:
    *   post:
    *     summary: Get Sitemap events. Requires nginx.
+   *     tags: [Sitemaps]
    *     parameters:
    *       - in: path
    *         name: subscriptionid
@@ -244,6 +267,7 @@ const sitemaps = (app) => {
    * /rest/sitemaps/events/subscribe:
    *   post:
    *     summary: Creates a Sitemap event subscription. Requires nginx.
+   *     tags: [Sitemaps]
    *     responses:
    *       201:
    *         description: Subscription created.

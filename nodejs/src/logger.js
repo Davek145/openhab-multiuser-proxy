@@ -9,5 +9,13 @@ export default pino({
     level: (label) => {
       return { level: label };
     }
+  },
+  transport: {
+    target: 'pino-pretty',
+    options: {
+	destination: `${process.env.PINO_LOG_FILE}`,
+	translateTime: 'SYS:standard',
+	singleLine: true
+    }
   }
-}, pino.destination(process.env.PINO_LOG_FILE));
+});

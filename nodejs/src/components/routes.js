@@ -1,7 +1,8 @@
-import sitemaps from './sitemaps/routes.js';
 import items from './items/routes.js';
+import pages from './pages/routes.js';
+import sitemaps from './sitemaps/routes.js';
 import { requireHeader } from './middleware.js';
-import { sitemapAllowedForClient } from './sitemaps/security.js';
+import { adminAllowedForClient } from './admin/security.js';
 import { ADMIN_OU } from '../server.js';
 
 /**
@@ -19,6 +20,11 @@ import { ADMIN_OU } from '../server.js';
 export default (app) => {
   /**
    * @swagger
+     tags:
+	name: Auth
+	name: Items
+	name: Pages
+	name: Sitemaps
    * /:
    *   get:
    *     summary: Retrieve server information.
@@ -35,7 +41,7 @@ export default (app) => {
       name: process.env.npm_package_name,
       description: 'Multi-User support for openHAB REST API with NGINX.',
       purpose: 'This NodeJS application provides filters and access control mechanisms.',
-      author: 'Florian Hotze',
+      author: 'Florian Hotze, David Kesl',
       version: process.env.npm_package_version,
       license: 'GNU GPL-3.0',
       links: [
@@ -51,6 +57,7 @@ export default (app) => {
    *   get:
    *     summary: Authorization endpoint whether client has admin privileges.
    *     description: Used by nginx auth_request.
+   *     tags: [Auth]
    *     parameters:
    *       - in: header
    *         name: X-OPENHAB-USER
@@ -76,7 +83,7 @@ export default (app) => {
     const user = req.headers['x-openhab-user'];
     const org = req.headers['x-openhab-org'] || '';
     try {
-      const allowed = await sitemapAllowedForClient(user, org, ADMIN_OU);
+      const allowed = await adminAllowedForClient(user, org);
       if (allowed === true) {
         res.status(200).send();
       } else {
@@ -88,6 +95,8 @@ export default (app) => {
   });
 
   // Other routes
-  sitemaps(app);
   items(app);
+  pages(app);
+  sitemaps(app);
+
 };

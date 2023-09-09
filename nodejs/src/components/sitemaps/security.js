@@ -1,5 +1,5 @@
 import logger from './../../logger.js';
-import { ORG_SEPARATOR, ADMIN_OU } from '../../server.js';
+import { ORG_SEPARATOR, ADMIN_OU, EVERYONE_OU } from '../../server.js';
 
 /**
  * Items security namespace. Provides security checks for Item access.
@@ -23,11 +23,16 @@ export const sitemapAllowedForClient = (user, org, sitemapname) => {
   const orgOfSitemap = (sitemapname.includes(ORG_SEPARATOR)) ? sitemapname.split(ORG_SEPARATOR)[0] : sitemapname;
   logger.trace(`sitemapAllowedForClient(): Organization of Sitemap ${sitemapname} is ${orgOfSitemap}`);
   let allowed;
-  if (sitemapname === user || org.includes(orgOfSitemap) || org.includes(ADMIN_OU)) {
+  if (org.includes(ADMIN_OU)) {
+    logger.info({ user: user, orgs: org }, `sitemapAllowedForClient(): Sitemap ${sitemapname} allowed: true due to admin privileges`);
+    return true;
+  }
+  if (sitemapname === user || org.includes(orgOfSitemap) || orgOfSitemap === EVERYONE_OU) {
+    //Access allow when sitename is user name, user org or EVERYONE_OU
     allowed = true;
   } else {
     allowed = false;
   }
-  logger.info({ user: user, orgs: org }, `sitemapAllowedForClient(): Access to Sitemap/Page ${sitemapname} allowed: ${allowed} (typeof ${typeof allowed})`);
+  logger.info({ user: user, orgs: org }, `sitemapAllowedForClient(): Sitemap ${sitemapname} allowed: ${allowed}`);
   return allowed;
 };

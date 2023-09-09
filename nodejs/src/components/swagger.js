@@ -13,8 +13,8 @@ const swaggerDefinition = {
       url: 'https://spdx.org/licenses/GPL-3.0-or-later.html'
     },
     contact: {
-      name: '@florian-h05',
-      url: 'https://github.com/florian-h05/openhab-multiuser-proxy'
+      name: '@Davek145',
+      url: 'https://github.com/Davek145/openhab-multiuser-proxy'
     }
   },
   servers: [
@@ -27,7 +27,10 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ['./src/**/routes.js'] // files containing annotations as above
+//  apis: ['./src/**/routes.js'] // files containing annotations as above
+  apis: [`/usr/lib/node_modules/openhab-multiuser-proxy/src/**/routes.js`] // files containing annotations as above
+//  tagsSorter: "alpha",
+//  operationsSorter : "alpha"
 };
 const swaggerSpec = swaggerJsdoc(options);
 

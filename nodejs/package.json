@@ -1,35 +1,36 @@
 {
   "name": "openhab-multiuser-proxy",
   "description": "Multi-User support for openHAB REST API with NGINX.",
-  "version": "1.0.7",
+  "version": "2.0.1",
   "private": false,
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js | npx pino-pretty --translateTime",
     "lint": "semistandard",
     "predocs": "rm -Rf ./docs/* && cp -rf ./../README.md .",
-    "docs": "./node_modules/.bin/jsdoc --configure docs_config.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
+    "docs": "./node_modules/.bin/jsdoc --configure docs_config.json",
     "postdocs": "rm README.md",
     "test": "echo INFO: no test specified && exit 0",
     "prepack": "cp -rf ./../README.md .",
     "postpack": "rm README.md"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
-    "express": "~4.17.0",
+    "dotenv": "^16.3.1",
+    "express": "~4.18.2",
     "express-http-proxy": "^1.6.3",
     "lokijs": "^1.5.12",
-    "node-fetch": "^3.2.0",
-    "pino": "^7.8.0",
-    "pino-http": "^6.6.0",
-    "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.3.0",
-    "yargs": "^17.3.1"
+    "node-fetch": "^3.3.2",
+    "pino": "^8.15.0",
+    "pino-http": "^8.5.0",
+    "pino-pretty": "^10.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yargs": "^17.7.2"
   },
   "main": "src/server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/florian-h05/openhab-multiuser-proxy.git"
+    "url": "git+https://github.com/Davek145/openhab-multiuser-proxy"
   },
   "keywords": [
     "openHAB",
@@ -38,19 +39,18 @@
     "multi-user",
     "smarthome"
   ],
-  "author": "Florian Hotze",
+  "author": "Florian Hotze, David Kesl",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/florian-h05/openhab-multiuser-proxy/issues"
+    "url": "https://github.com/Davek145/openhab-multiuser-proxy/issues"
   },
-  "homepage": "https://github.com/florian-h05/openhab-multiuser-proxy#readme",
+  "homepage": "https://github.com/Davek145/openhab-multiuser-proxy#readme",
   "devDependencies": {
-    "@types/lokijs": "^1.5.7",
-    "docdash": "^1.2.0",
-    "jsdoc": "^3.6.10",
-    "nodemon": "^2.0.15",
-    "pino-pretty": "^7.5.1",
-    "semistandard": "^16.0.1"
+    "@types/lokijs": "^1.5.10",
+    "docdash": "^2.0.2",
+    "jsdoc": "^4.0.2",
+    "nodemon": "^3.0.1",
+    "semistandard": "^17.0.0"
   },
   "type": "module"
 }

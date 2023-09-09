@@ -26,7 +26,7 @@ const argv = yargs(hideBin(process.argv))
   .parse();
 
 // Server variables.
-export const PORT = (argv.port !== undefined) ? argv.port : (process.env.PORT !== undefined) ? parseInt(process.env.PORT) : 8081;
+export const PORT = (argv.port !== undefined) ? argv.port : (process.env.PORT !== undefined) ? parseInt(process.env.PORT) : 8090;
 export const backendInfo = {
   HOST: (argv.host !== undefined) ? argv.host : (process.env.HOST !== undefined) ? process.env.HOST : 'http://127.0.0.1:8080'
 };
@@ -36,10 +36,28 @@ export const backendInfo = {
  */
 export const ADMIN_OU = process.env.ADMIN_OU || 'admin';
 /**
- * Time to cache in milliseconds.
+ * Everyone Organizational Unit.
+ * Defaults to everyone
+ */
+export const EVERYONE_OU = process.env.EVERYONE_OU || 'everyone';
+/**
+ * Time to cache sitemaps/pages/items in milliseconds.
  * Defaults to 300000 ms = 5 min.
  */
 export const CACHE_TIME = process.env.CACHE_TIME || 300000;
+
+/**
+ * Time to cache ACL for sitemaps/pages/items in milliseconds.
+ * Defaults to 3600000 ms = 60 min.
+ */
+export const CACHE_TIME_ACL = process.env.CACHE_TIME_ACL || 3600000;
+
+/**
+ * Prefix of the access control tag for Items and Pages.
+ * Defaults to acl:
+ */
+export const ACL_PREFIX = process.env.ACL_PREFIX || 'acl:';
+logger.debug(`Access control prefix is ${ACL_PREFIX}`);
 
 /**
  * Separates the organization name at beginning of Sitemap name from the full name.
@@ -48,6 +66,13 @@ export const CACHE_TIME = process.env.CACHE_TIME || 300000;
  */
 export const ORG_SEPARATOR = process.env.ORG_SEPARATOR || '_org_';
 logger.debug(`Organization separator is ${ORG_SEPARATOR}`);
+
+/**
+ * Remove separators of empty section in filtered home page.
+ * Defaults to true
+ */
+export const HOME_SEPARATOR = process.env.HOME_SEPARATOR || 'true';
+
 const app = express();
 
 // Server setup.
@@ -60,7 +85,7 @@ app.use(express.json());
 app.use(express.text());
 app.use(pino({
   logger: logger,
-  customLogLevel: function (res, err) {
+  customLogLevel: function (req, res, err) {
     if (res.statusCode >= 400 && res.statusCode < 500) { // Client error
       return 'trace';
     } else if (res.statusCode >= 500 || err) { // Server error

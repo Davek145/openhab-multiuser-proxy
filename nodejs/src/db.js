@@ -25,7 +25,20 @@ export const itemsOfSitemapDb = db.addCollection('sitemaps', {
  *
  * @memberof lokijs
  */
-export const sitemapListDb = db.addCollection('sitemapsList', {
+export const sitemapsListDb = db.addCollection('sitemapsList', {
+  exact: ['name', 'lastupdate', 'json'],
+  indices: ['name'],
+  autoload: false,
+  autosave: false,
+  autosaveInterval: 10000
+});
+/**
+ * LokiJS database that holds the list of Pages.
+ * Fetched from: /rest/ui/components/ui:page
+ *
+ * @memberof lokijs
+ */
+export const pagesListDb = db.addCollection('pagesList', {
   exact: ['name', 'lastupdate', 'json'],
   indices: ['name'],
   autoload: false,
@@ -40,6 +53,30 @@ export const sitemapListDb = db.addCollection('sitemapsList', {
  */
 export const itemsListDb = db.addCollection('itemsList', {
   exact: ['name', 'lastupdate', 'json'],
+  indices: ['name'],
+  autoload: false,
+  autosave: false,
+  autosaveInterval: 10000
+});
+/**
+ * LokiJS database that holds the Pages allowed for a user.
+ *
+ * @memberof lokijs
+ */
+export const pagesForUserDb = db.addCollection('pagesForUser', {
+  exact: ['name', 'lastupdate', 'pages'],
+  indices: ['name'],
+  autoload: false,
+  autosave: false,
+  autosaveInterval: 10000
+});
+/**
+ * LokiJS database that holds the Items allowed for a user.
+ *
+ * @memberof lokijs
+ */
+export const itemsForUserDb = db.addCollection('itemsForUser', {
+  exact: ['name', 'lastupdate', 'items'],
   indices: ['name'],
   autoload: false,
   autosave: false,
