@@ -2,6 +2,8 @@
 
 Routes to the openHAB Server provided by the multiuser filter proxy.
 
+Always limit request methods to what is required.
+
 ## MainUI
 
 Dynamic routes for openHAB 3+ MainUI.
@@ -47,7 +49,10 @@ path | method | resource / description
 
 ## openHAB App
 
-Additional dynamic routes for the openHAB mobile app. - NOT MAINTAINED
+**NOT MAINTAINED:** This is legacy Basic UI Sitemaps functionality and it is no longer maintained in version 2 of openHAB MultiUser Proxy.
+Functionality is provided and shall be working, however by default these routes are turned off in [nginx](../nginx/README.md).
+
+Additional dynamic routes for the openHAB mobile app.
 
 path | method | response type / request type | resource / description | required filtering | Approach
 -|-|-|-|-|-
@@ -58,5 +63,4 @@ path | method | response type / request type | resource / description | required
 /basicui/ | GET | application/json | Get other BasicUI components | No filtering. | Proxy request to openHAB application.
 
 
-Always limit request methods to what is required.
 
