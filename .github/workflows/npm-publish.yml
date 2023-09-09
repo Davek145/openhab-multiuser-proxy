@@ -4,6 +4,7 @@
 name: Node.js Package to npm
 
 on:
+  workflow_dispatch
   push:
     tags:
       - 'node-v*'
