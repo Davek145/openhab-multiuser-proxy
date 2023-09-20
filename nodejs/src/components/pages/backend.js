@@ -105,27 +105,23 @@ export const getPagesForUser = async function (HOST, expressReq, user, org) {
     const response = await fetch(HOST + '/rest/ui/components/ui%3Apage?summary=true', { headers: headers });
     const allPages = await response.json();
     let filteredPages = [];
-    if (org.includes(ADMIN_OU)) {
-	//Member of ADMIN_OU has full access
-	filteredPages = allPages;
-    } else {
-        for (const i in allPages) {
-	    if (allPages[i].uid === 'home' || allPages[i].uid === 'overview') {
-		//Default OH page 'home' and 'overview' is allways allowed, otherwise MainUI does not load
-		filteredPages.push(allPages[i].uid);
-	    } else {
-		for (const j in allPages[i].tags) {
-		    if (allPages[i].tags[j].startsWith(ACL_PREFIX)) {
-			if (allPages[i].tags[j].substring(ACL_PREFIX.length) === user || 
-			    org.includes(allPages[i].tags[j].substring(ACL_PREFIX.length)) || 
-			    allPages[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
-			    //Access allow when tags include user name, user org or EVERYONE_OU
-			    filteredPages.push(allPages[i].uid);
-        		}
-		    }
-		}
-	    }
-	}
+    for (const i in allPages) {
+        if (allPages[i].uid === 'home' || allPages[i].uid === 'overview') {
+            //Default OH page 'home' and 'overview' is allways allowed, otherwise MainUI does not load
+            filteredPages.push(allPages[i].uid);
+        } else {
+            for (const j in allPages[i].tags) {
+                if (allPages[i].tags[j].startsWith(ACL_PREFIX)) {
+                    if (allPages[i].tags[j].substring(ACL_PREFIX.length) === user || 
+                        org.includes(allPages[i].tags[j].substring(ACL_PREFIX.length)) || 
+                        org.includes(ADMIN_OU) || 
+                        allPages[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
+                        //Access allow when tags include user name, user org or EVERYONE_OU, Member of ADMIN_OU has full access
+                        if (!filteredPages.includes(allPages[i].name)) filteredPages.push(allPages[i].uid);
+                    }
+                }
+            }
+        }
     }
     pagesForUserDb.insert({ name: user, lastupdate: now, pages: filteredPages });
     const status = response.status;

@@ -1,7 +1,7 @@
-import { sitemapAllowedForClient } from './security.js';
+import { sitemapAllowedForClient, widgetsFilterForClient } from './security.js';
 import { requireHeader } from './../middleware.js';
 import { backendInfo } from '../../server.js';
-import { getAllSitemaps, getSitemap } from './backend.js';
+import { getAllSitemaps, getSitemap, getSitemapPage } from './backend.js';
 import proxy from 'express-http-proxy';
 
 const sitemapAccess = () => {
@@ -9,7 +9,7 @@ const sitemapAccess = () => {
     const org = req.headers['x-openhab-org'] || '';
     const user = req.headers['x-openhab-user'];
     try {
-      const allowed = await sitemapAllowedForClient(user, org, req.params.sitemapname);
+      const allowed = await sitemapAllowedForClient(backendInfo.HOST, req, user, org, req.params.sitemapname);
       if (allowed === true) {
         next();
       } else {
@@ -63,14 +63,17 @@ const sitemaps = (app) => {
    *       403:
    *         description: Forbidden
    */
-  app.get('/auth/sitemaps', requireHeader('X-OPENHAB-USER'), requireHeader('X-ORIGINAL-URI'), (req, res, next) => {
+  app.get('/auth/sitemaps', requireHeader('X-OPENHAB-USER'), requireHeader('X-ORIGINAL-URI'), async (req, res) => {
     const org = req.headers['x-openhab-org'] || '';
     const user = req.headers['x-openhab-user'];
-    const regex = /(\?|&)sitemap=([a-zA-Z_0-9]+)[&]?/;
-    const sitemapname = regex.exec(req.headers['x-original-uri']);
+    const regex1 = /(\?|&)sitemap=([a-zA-Z_0-9]+)[&]?/;
+    const regex2 = /\/sitemaps\/([a-zA-Z_0-9]+)/;
+    const sitemapname1 = regex1.exec(req.headers['x-original-uri']);
+    const sitemapname2 = regex2.exec(req.headers['x-original-uri']);
+    const sitemapname = (sitemapname1 == null) ? sitemapname2 : sitemapname1;
     if (sitemapname == null) return res.status(403).send();
     try {
-      const allowed = sitemapAllowedForClient(user, org, sitemapname[2]);
+      const allowed = await sitemapAllowedForClient(backendInfo.HOST, req, user, org, sitemapname[2]);      
       if (allowed === true) {
         res.status(200).send();
       } else {
@@ -119,9 +122,9 @@ const sitemaps = (app) => {
       const allSitemaps = await getAllSitemaps(backendInfo.HOST, req);
       let filteredSitemaps = [];
       for (const i in allSitemaps) {
-	if (await sitemapAllowedForClient(user, org, allSitemaps[i].name) === true) {
-	    filteredSitemaps.push(allSitemaps[i]);
-	}
+        if (await sitemapAllowedForClient(backendInfo.HOST, req, user, org, allSitemaps[i].name) === true) {
+            filteredSitemaps.push(allSitemaps[i]);
+        }
       }
       res.status(200).send(filteredSitemaps);
     } catch (e) {
@@ -171,8 +174,17 @@ const sitemaps = (app) => {
    *         description: Sitemap not found
    */
   app.get('/rest/sitemaps/:sitemapname', requireHeader('X-OPENHAB-USER'), sitemapAccess(), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
     try {
       const response = await getSitemap(backendInfo.HOST, req, req.params.sitemapname);
+      const tempWidget = response.json.homepage.widgets;
+      //recursive filtering of child widgets
+      if (Array.isArray(tempWidget)) {
+          response.json.homepage.widgets = [];
+          const tempChWidgets = await widgetsFilterForClient(backendInfo.HOST, req, user, org, tempWidget);
+          response.json.homepage.widgets = tempChWidgets;
+      }
       res.status(response.status).send(response.json);
     } catch (e) {
       console.info(e);
@@ -201,6 +213,13 @@ const sitemaps = (app) => {
    *         schema:
    *           type: string
    *         style: form
+   *       - in: query
+   *         name: parameters
+   *         required: false
+   *         description: Query parameters from API (subscriptionid)
+   *         schema:
+   *           type: string
+   *         style: form
    *       - in: header
    *         name: X-OPENHAB-USER
    *         required: true
@@ -222,13 +241,34 @@ const sitemaps = (app) => {
    *           application/json:
    *             schema:
    *               type: object
+   *       403:
+   *         description: Sitemap access forbidden
+   *       404:
+   *         description: Sitemap not found
    */
-  //app.get('/rest/sitemaps/:sitemapname/:pageid', requireHeader('X-OPENHAB-USER'), sitemapAccess(), proxy(backendInfo.HOST + '/rest/sitemaps/'));
-
+  app.get('/rest/sitemaps/:sitemapname/:pageid', requireHeader('X-OPENHAB-USER'), sitemapAccess(), async (req, res) => {
+    const org = req.headers['x-openhab-org'] || '';
+    const user = req.headers['x-openhab-user'];
+    try {
+      const response = await getSitemapPage(backendInfo.HOST, req, req.params.sitemapname, req.params.pageid);
+      const tempWidget = response.json.widgets;
+      //recursive filtering of child widgets
+      if (Array.isArray(tempWidget)) {
+          response.json.widgets = [];
+          const tempChWidgets = await widgetsFilterForClient(backendInfo.HOST, req, user, org, tempWidget);
+          response.json.widgets = tempChWidgets;
+      }
+      res.status(response.status).send(response.json);
+    } catch (e) {
+      console.info(e);
+      res.status(500).send();
+    }
+  });  
+  
   /**
    * @swagger
    * /rest/sitemaps/events/{subscriptionid}:
-   *   post:
+   *   get:
    *     summary: Get Sitemap events. Requires nginx.
    *     tags: [Sitemaps]
    *     parameters:
@@ -274,6 +314,33 @@ const sitemaps = (app) => {
    *       503:
    *         description: Subscriptions limit reached.
    */
+  
+  /**
+   * @swagger
+   * /basicui/:
+   *   get:
+   *     summary: Gets BasicUI. Requires nginx.
+   *     tags: [Sitemaps]
+   *     parameters:
+   *       - in: path
+   *         name: app
+   *         required: true
+   *         description: basic UI app and other components
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: query
+   *         name: parameters
+   *         required: false
+   *         description: Query parameters (e.g. sitemap, w)
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   */
+  
 };
 
 export default sitemaps;

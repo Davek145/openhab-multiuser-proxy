@@ -136,22 +136,18 @@ export const getItemsForUser = async function (HOST, expressReq, user, org) {
     const response = await fetch(HOST + '/rest/items?recursive=false&fields=name%2C%20tags', { headers: headers });
     const allItems = await response.json();
     let filteredItems = [];
-    if (org.includes(ADMIN_OU)) {
-	//Member of ADMIN_OU has full access
-	filteredItems = allItems;
-    } else {
-        for (const i in allItems) {
-		for (const j in allItems[i].tags) {
-		    if (allItems[i].tags[j].startsWith(ACL_PREFIX)) {
-			if (allItems[i].tags[j].substring(ACL_PREFIX.length) === user ||
-			    org.includes(allItems[i].tags[j].substring(ACL_PREFIX.length)) ||
-			    allItems[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
-			    //Access allow when tags include user name, user org or EVERYONE_OU
-			    filteredItems.push(allItems[i].name);
-			}
-		    }
-		}
-	}
+    for (const i in allItems) {
+        for (const j in allItems[i].tags) {
+            if (allItems[i].tags[j].startsWith(ACL_PREFIX)) {
+                if (allItems[i].tags[j].substring(ACL_PREFIX.length) === user ||
+                    org.includes(allItems[i].tags[j].substring(ACL_PREFIX.length)) ||
+                    org.includes(ADMIN_OU) || 
+                    allItems[i].tags[j].substring(ACL_PREFIX.length) === EVERYONE_OU) {
+                    //Access allow when tags include user name, user org or EVERYONE_OU, Member of ADMIN_OU has full access
+                    if (!filteredItems.includes(allItems[i].name)) filteredItems.push(allItems[i].name);
+                }
+            }
+        }
     }
     itemsForUserDb.insert({ name: user, lastupdate: now, items: filteredItems });
     const status = response.status;

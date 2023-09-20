@@ -1,7 +1,7 @@
 {
   "name": "openhab-multiuser-proxy",
   "description": "Multi-User support for openHAB REST API with NGINX.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": false,
   "scripts": {
     "start": "node ./src/server.js",

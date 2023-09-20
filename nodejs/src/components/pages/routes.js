@@ -21,7 +21,7 @@ const pageAccess = () => {
 };
 
 /**
- * Provide required /pages routes.
+ * Provides required /pages routes.
  *
  * @memberof routes
  * @param {*} app expressjs app
@@ -116,14 +116,14 @@ const pages = (app) => {
       const allPages = await getAllPages(backendInfo.HOST, req);
       let filteredPages = [];
       for (const i in allPages) {
-	if (await pageAllowedForClient(backendInfo.HOST, req, user, org, allPages[i].uid) === true) {
-	    if (allPages[i].uid === 'home') {
-		const filteredHome = await pageFilterHome(backendInfo.HOST, req, user, org, allPages[i]);
-		filteredPages.push(filteredHome);
-	    } else {
-		filteredPages.push(allPages[i]);
-	    }
-	}
+          if (await pageAllowedForClient(backendInfo.HOST, req, user, org, allPages[i].uid) === true) {
+              if (allPages[i].uid === 'home') {
+                  const filteredHome = await pageFilterHome(backendInfo.HOST, req, user, org, allPages[i]);
+                  filteredPages.push(filteredHome);
+              } else {
+                  filteredPages.push(allPages[i]);
+              }
+          }
       }
       res.status(200).send(filteredPages);
     } catch (e) {
@@ -178,8 +178,8 @@ const pages = (app) => {
     try {
       const response = await getPage(backendInfo.HOST, req, req.params.pageUid);
       if(req.params.pageUid === 'home') {
-	const filteredHome = await pageFilterHome(backendInfo.HOST, req, user, org, response.json);
-	res.status(response.status).send(filteredHome);
+        const filteredHome = await pageFilterHome(backendInfo.HOST, req, user, org, response.json);
+        res.status(response.status).send(filteredHome);
       } else {
         res.status(response.status).send(response.json);
       }
@@ -188,6 +188,64 @@ const pages = (app) => {
       res.status(500).send();
     }
   });
+  
+  /**
+   * @swagger
+   * /rest/ui/components/{namespace}/{componentUID}:
+   *   get:
+   *     summary: Gets other Main UI components. Requires nginx.
+   *     tags: [Pages]
+   *     parameters:
+   *       - in: path
+   *         name: namespace
+   *         required: true
+   *         description: Component namespace
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: path
+   *         name: componentUID
+   *         required: false
+   *         description: Component UID
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: parameters
+   *         name: parameters
+   *         required: true
+   *         description: Query parameters (e.g. summary)
+   *         schema:
+   *           type: string
+   *         style: form   
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       404:
+   *         description: Component not found
+   */  
+  
+  /**
+   * @swagger
+   * /page/{pageUID}:
+   *   get:
+   *     summary: Gets Main UI page. Requires nginx.
+   *     tags: [Pages]
+   *     parameters:
+   *       - in: path
+   *         name: pageUID
+   *         required: true
+   *         description: Page UID
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   */  
 
 };
 

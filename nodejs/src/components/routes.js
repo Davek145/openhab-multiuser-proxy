@@ -20,11 +20,6 @@ import { ADMIN_OU } from '../server.js';
 export default (app) => {
   /**
    * @swagger
-     tags:
-	name: Auth
-	name: Items
-	name: Pages
-	name: Sitemaps
    * /:
    *   get:
    *     summary: Retrieve server information.

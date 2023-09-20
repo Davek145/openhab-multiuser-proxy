@@ -59,6 +59,18 @@ export const itemsListDb = db.addCollection('itemsList', {
   autosaveInterval: 10000
 });
 /**
+ * LokiJS database that holds the Sitemaps allowed for a user.
+ *
+ * @memberof lokijs
+ */
+export const sitemapsForUserDb = db.addCollection('sitemapsForUser', {
+  exact: ['name', 'lastupdate', 'sitemaps'],
+  indices: ['name'],
+  autoload: false,
+  autosave: false,
+  autosaveInterval: 10000
+});
+/**
  * LokiJS database that holds the Pages allowed for a user.
  *
  * @memberof lokijs

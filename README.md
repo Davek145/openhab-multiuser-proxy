@@ -1,6 +1,6 @@
-# openHAB Multi-User support for the REST API v 2.0.1
+# openHAB Multi-User support for the REST API v 2.0.2
 
-**NOTE:** This is fork of the archived [openhab-multiuser-proxy project](https://github.com/florian-h05/openhab-multiuser-proxy) and it is utilizing great work done by [Florian Hotze](https://github.com/florian-h05). Version 2 of openHAB MultiUser Proxy is expanded and adjusted to fully support MainUI of openHAB 3+ including filtering of Items and Pages.
+**NOTE:** This is fork of the archived [openhab-multiuser-proxy project](https://github.com/florian-h05/openhab-multiuser-proxy) and it is utilizing great work done by [Florian Hotze](https://github.com/florian-h05). Version 2 of openHAB MultiUser Proxy is expanded and adjusted to fully support MainUI of openHAB 3 and 4 including filtering of Items and Pages.
 
 This project aims to provide a secure multiuser support for the [openHAB REST API](https://www.openhab.org/docs/configuration/restdocs.html#openhab-rest-api).
 It is utilising a NodeJS application and the popular [NGINX](https://www.nginx.com/) webserver to proxy and filter requests to the REST API.
@@ -10,7 +10,7 @@ Opposite to the ``visibleTo`` property available in openHAB, filtering provided 
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/standard/semistandard)
 [![npm version](https://badge.fury.io/js/openhab-multiuser-proxy.svg)](https://badge.fury.io/js/openhab-multiuser-proxy)
 
-**DISCLAIMER:** I DO NOT GUARANTEE that this project has no vulnerabilities a attacker could use.
+**DISCLAIMER:** I DO NOT GUARANTEE that this project has no vulnerabilities an attacker could use. Use it at your own responsibility.
 As GPL-3.0 says, this project comes without any liability or warranty.
 
 ## Table of Contents
@@ -30,7 +30,7 @@ As GPL-3.0 says, this project comes without any liability or warranty.
 
 ## Introduction
 
-This project allows to set granular access control to Items, Pages and Sitemaps provided by openHAB 3+. It allows to distinguish between individual users and provide them access only to approved Items/Pages/Sitemaps.
+This project allows to set granular access control to Items, Pages and Sitemaps provided by openHAB 3 and 4. It allows to distinguish between individual users and provide them access only to approved Items/Pages/Sitemaps.
 
 Authentication of users is not utilizing internal authentication in openHAB.
 It relies on mTLS (client certificate auth) to get user id and org memberships used for the access authorization. For openHAB application all users are utilizing the implicit user role (need to be turned ON in [API security setting](https://www.openhab.org/docs/configuration/restdocs.html) of openHAB). OpenHAB authentication to access openHAB setting is possible only via the dedicated [admin server instance](#admin-user).
@@ -43,6 +43,8 @@ Version 2 of openHAB MultiUser Proxy is utilizing openHAB [tagging]( https://www
 
 ACL Tag added to a Page or Item always consists of ``ACL_PREFIX`` (default ``acl:``) followed user id or org that this ACL Tag grants access to. Example: ``acl:john``, ``acl:guests``.
 
+![sample_tag](https://raw.githubusercontent.com/Davek145/openhab-multiuser-proxy/main/doc/tags.png)
+
 If no ACL Tag is added to a Page or an Item, than only clients that are members of ADMIN_OU do have access to it.
 
 There are two special orgs defined with pre-defined meaning:
@@ -52,7 +54,11 @@ There are two special orgs defined with pre-defined meaning:
 ADMIN_OU and EVERYONE_OU is defined in [configuration options](#configuration-options).
 
 Tags can be added to Items by several means, e.g. in Items file, using MainUI, via rules and via Rest API.
-Tags to Pages can be currently added only via Rest API.
+Tags to Pages can be currently added only via Rest API. However, there is [PR](https://github.com/openhab/openhab-webui/pull/2078) submitted to enable adding such Tags to Pages via MainUI.
+
+![sample_edit](https://raw.githubusercontent.com/Davek145/openhab-multiuser-proxy/main/doc/tags_edit.png)
+![sample_api](https://raw.githubusercontent.com/Davek145/openhab-multiuser-proxy/main/doc/tags_api.png)
+
 
 ## Access to MainUI pages
 
@@ -63,11 +69,16 @@ A client can access MainUI page if at least one of the following conditions is f
  - Client is member of ADMIN_OU org;
  - Page requested is ``home`` or ``overview`` that is necessary for load of MainUI.
 
-Page ``home``, that is displaying generated model tabs with Locations, Equipment and Properties, is filtered so that the client is provided only with authorized Items (including Location Items). It can also filter separators of empty sections in Locations tab.
+Page ``home``, that is displaying generated model tabs with Locations, Equipment and Properties, is filtered so that the client is provided only with [authorized Items](#access-to-items) (including Location Items). It can also filter separators of empty sections in Locations tab.
 
-Access to MainUI pages is filtered both when accessed directly via ``/page/{componentUID}`` as well as when requested via REST API. If the Page is displayed at MainUI Sidebar, it is filtered out of the menu if access to the Page is not authorized.
+Access to MainUI pages is filtered both when they are accessed directly via ``/page/{componentUID}`` as well as when requested via REST API. If the Page is displayed at MainUI Sidebar, it is filtered out of the menu if access to the Page is not authorized.
 
-Items displayed on pages are filtered only in case list of displayed Items is generated via REST API. Hardcoded Items on authorized Page are always displayed, however, their state as well access to command is filtered.
+Items displayed on pages are filtered only in case list of displayed Items is generated via REST API (e.g. automatically generated Home site based on semantic model). Hardcoded Items on authorized Page are always displayed, however, their state as well access to commands is filtered. Only authorized Items are requested in the SSE event listeners connection. Commands are sent only to authorized Items.
+
+Only the following Page operations are allowed:
+ - Get all MainUI Pages;
+ - Get a single MainUI Page;
+ - Display Page in Main UI.
 
 ## Access to Items
 
@@ -81,14 +92,16 @@ Only the following Item operations are allowed:
  - Get all available Items;
  - Get a single Item;
  - Get the state of an Item;
- - Get the item which defines the requested semantics of an Item;
+ - Get the Item which defines the requested semantics of an Item;
+ - Get item persistence data from the persistence service;
+ - Analyze an Item;
  - Send a command to an Item;
  - Initiate and change Item state tracker connection.
 
 ## Access to Sitemaps
 
-**NOT MAINTAINED:** This is legacy Basic UI Sitemaps functionality and it is no longer maintained in version 2 of openHAB MultiUser Proxy.
-Functionality is provided and shall be working, however by default these routes are turned off in [nginx](nginx/README.md).
+**NOT ACTIVELY MAINTAINED:** This is legacy Basic UI Sitemaps functionality and it is no longer maintained in version 2 of openHAB MultiUser Proxy.
+Functionality is provided and shall be working, however by default these routes are turned off in [nginx](nginx/README.md) and [NodeJS](#configuration-options).
 
 A client can access a Sitemap if at least one of the following conditions is fulfilled:
 - Sitemap name exactly matches with the client's user id;
@@ -100,8 +113,20 @@ A client with username *Florian* & organizations *family*, *administration* has 
  - a Sitemap named *Florian*,
  - a Sitemap named *family* or *administration*,
  - every Sitemap whose name starts with *familiy_org_* or *administration_org_*.
+ 
+Sitemap provided via REST API is filtered and only widgets with [authorized Items](#access-to-items) are provided. If item is not authorized, entire widget is filtered.
 
-**WARNING:** Opposite to Pages, Items on a Sitemap are not filtered. If Item is included in approved Sitemap, its state will be shown even if the client is not having authorized access to this Item.
+**POTENTIAL DATA LEAK:** Filtering of Sitemap is not working reliably when using Basic UI app. Item and its state is displayed even if it is not authorized. However, commands are sent only to authorized Items.
+
+**POTENTIAL DATA LEAK:** Events are sent for all Sitemap Items regardless of Item authorization. Therefore, events are sent to Sitemap SSE listener even for not authorized Sitemap Items.
+
+Only the following Sitemap operations are allowed:
+ - Get all available Sitemaps;
+ - Get a single Sitemap;
+ - Polls the data for a sitemap;
+ - Chart an Item;
+ - Initiate and get Sitemap Items state tracker connection;
+ - Display Sitemap in Basic UI App.
 
 ## Admin user
 
@@ -134,9 +159,10 @@ Option | Description | Command line argument | Environment variable | Example | 
 `ADMIN_OU` | Administrator organizational unit. | none | ADMIN_OU | ADMIN_OU=administrator | ``admin``
 `EVERYONE_OU` | Everyone organizational unit. | none | EVERYONE_OU | EVERYONE_OU=everyone | `` everyone ``
 `CACHE_TIME` | Time (in milliseconds) for caching of Items/Pages/Sitemaps. | none | CACHE_TIME | CACHE_TIME=300000 | ``300000`` = 5 min
-`CACHE_TIME_ACL` | Time (in milliseconds) for caching of ACL for Items/Pages/Sitemaps. | none | CACHE_TIME=3600000 | CACHE_TIME | ``3600000`` = 60 min
+`CACHE_TIME_ACL` | Time (in milliseconds) for caching of ACL for Items/Pages/Sitemaps. | none | CACHE_TIME_ACL | CACHE_TIME_ACL=3600000 | ``3600000`` = 60 min
 `ACL_PREFIX` | Prefix of the access control tag for Items/Pages. | none | ACL_PREFIX | ACL_PREFIX=acl: | ``acl:``
 `ORG_SEPARATOR` | Separates organization name at beginning of Sitemap name from the rest. | none | ORG_SEPARATOR | ORG_SEPARATOR=_org_ | ``_org_``
+`SITEMAP_DISABLE` | Disable/filter all Sitemaps for all clients. Usefull in case only MainUI is used. | none | SITEMAP_DISABLE | SITEMAP_DISABLE=true | ``true``
 `HOME_SEPARATOR` | Remove separators of empty section in filtered home page. | none | HOME_SEPARATOR | HOME_SEPARATOR=true | ``true``
 
 These options can be set in the systemd file, either as param in ``ExecStart`` or as ``Environment`` variable.
@@ -161,5 +187,3 @@ sudo ufw deny from any to any port 8080 comment "openHAB HTTP"
 sudo ufw deny from any to any port 8443 comment "openHAB HTTPS"
 sudo ufw deny from any to any port 8090 comment "openHAB Multi-User"
 ```
-
-

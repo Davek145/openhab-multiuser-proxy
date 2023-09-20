@@ -21,6 +21,8 @@ import { ADMIN_OU } from '../../server.js';
  * @returns {Boolean} whether Item access is allowed or not
  */
 export const itemAllowedForClient = async function (HOST, expressReq, user, org, itemname) {
+  if (!user) throw Error('Parameter user is required!');
+  if (!org) org = [];  
   if (typeof org === 'string') org = org.toString().split('.');
   if (org.includes(ADMIN_OU)) {
     logger.info({ user: user, orgs: org }, `itemAllowedForClient(): Item ${itemname} allowed: true due to admin privileges`);
@@ -37,7 +39,6 @@ export const itemAllowedForClient = async function (HOST, expressReq, user, org,
   }
 };
 
-
 /**
  * Filter Items allowed for client - used for recursive filtering of group members.
  * Must be used with await in async functions.
@@ -51,10 +52,12 @@ export const itemAllowedForClient = async function (HOST, expressReq, user, org,
  * @returns {String|Array<String>} list of filtered items
  */
 export const itemsFilterForClient = async function (HOST, expressReq, user, org, allItems) {
+  if (!user) throw Error('Parameter user is required!');
+  if (!org) org = [];  
   if (typeof org === 'string') org = org.toString().split('.');
   if (org.includes(ADMIN_OU)) {
     for (const i in allItems) {
-	logger.info({ user: user, orgs: org }, `itemsFilterForClient(): Item ${allItems[i].name} allowed: true due to admin privileges`);
+        logger.info({ user: user, orgs: org }, `itemsFilterForClient(): Item ${allItems[i].name} allowed: true due to admin privileges`);
     }
     return allItems;
   }
@@ -62,20 +65,20 @@ export const itemsFilterForClient = async function (HOST, expressReq, user, org,
     const userItems = await getItemsForUser(HOST, expressReq, user, org);
     let filteredItems = [];
     for (const i in allItems) {
-	//filter current item
-	const allowed = userItems.includes(allItems[i].name);
+        //filter current item
+        const allowed = userItems.includes(allItems[i].name);
         if (allowed  === true) {
-	    let tempItem = allItems[i];
-	    const tempItem2 = allItems[i].members;
-	    //recursive filtering of member items
-	    if (Array.isArray(tempItem2)) {
-		tempItem.members = [];
-		const tempMembers = await itemsFilterForClient(HOST, expressReq, user, org, tempItem2);
-		tempItem.members = tempMembers;
-	    }
-	    filteredItems.push(tempItem);
-	}
-	logger.info({ user: user, orgs: org }, `itemsFilterForClient(): Item ${allItems[i].name} allowed: ${allowed}`);
+            let tempItem = allItems[i];
+            const tempItem2 = allItems[i].members;
+            //recursive filtering of member items
+            if (Array.isArray(tempItem2)) {
+                tempItem.members = [];
+                const tempMembers = await itemsFilterForClient(HOST, expressReq, user, org, tempItem2);
+                tempItem.members = tempMembers;
+            }
+            filteredItems.push(tempItem);
+        }
+        logger.info({ user: user, orgs: org }, `itemsFilterForClient(): Item ${allItems[i].name} allowed: ${allowed}`);
     }
     return filteredItems;
   } catch (err) {

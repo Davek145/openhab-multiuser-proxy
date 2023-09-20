@@ -2,6 +2,7 @@ import { itemAllowedForClient, itemsFilterForClient } from './security.js';
 import { requireHeader } from './../middleware.js';
 import { backendInfo } from '../../server.js';
 import { getAllItems, getItem, getItemState, getItemSemantic, sendItemCommand, sendEventsItems } from './backend.js';
+import proxy from 'express-http-proxy';
 
 const itemAccess = () => {
   return async function (req, res, next) {
@@ -21,7 +22,7 @@ const itemAccess = () => {
 };
 
 /**
- * Provide required /items routes.
+ * Provides required /items routes.
  *
  * @memberof routes
  * @param {*} app expressjs app
@@ -65,8 +66,12 @@ const items = (app) => {
   app.get('/auth/items', requireHeader('X-OPENHAB-USER'), requireHeader('X-ORIGINAL-URI'), async (req, res) => {
     const org = req.headers['x-openhab-org'] || '';
     const user = req.headers['x-openhab-user'];
-    const regex = /\/items\/([a-zA-Z_0-9]+)/;
-    const itemname = regex.exec(req.headers['x-original-uri']);
+    const regex1 = /(\?|&)items=([a-zA-Z_0-9]+)[&]?/;
+    const regex2 = /\/items\/([a-zA-Z_0-9]+)/;
+    const itemname1 = regex1.exec(req.headers['x-original-uri']);
+    const itemname2 = regex2.exec(req.headers['x-original-uri']);
+    const itemname = (itemname1 == null) ? itemname2 : itemname1;
+    
     if (itemname == null) return res.status(403).send();
     try {
       const allowed = await itemAllowedForClient(backendInfo.HOST, req, user, org, itemname[1]);
@@ -87,7 +92,7 @@ const items = (app) => {
    *     summary: Get all available Items.
    *     tags: [Items]
    *     parameters:
-   *       - in: parameters
+   *       - in: query
    *         name: parameters
    *         required: false
    *         description: Query parameters from API (metadata, recursive, type, tags, fields)
@@ -123,17 +128,17 @@ const items = (app) => {
       const allItems = await getAllItems(backendInfo.HOST, req);
       let filteredItems = [];
       for (const i in allItems) {
-	if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i].name) === true) {
-	    let tempItem = allItems[i];
-	    const tempItem2 = allItems[i].members;
-	    //recursive filtering of member items
-	    if (Array.isArray(tempItem2)) {
-		tempItem.members = [];
-		const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem2);
-		tempItem.members = tempMembers;
-	    }
-	    filteredItems.push(tempItem);
-	}
+         if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i].name) === true) {
+            let tempItem = allItems[i];
+            const tempItem2 = allItems[i].members;
+            //recursive filtering of member items
+            if (Array.isArray(tempItem2)) {
+                tempItem.members = [];
+                const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem2);
+                tempItem.members = tempMembers;
+            }
+            filteredItems.push(tempItem);
+         }
       }
       res.status(200).send(filteredItems);
     } catch (e) {
@@ -156,10 +161,10 @@ const items = (app) => {
    *         schema:
    *           type: string
    *         style: form
-   *       - in: parameters
+   *       - in: query
    *         name: parameters
    *         required: false
-   *         description: Query parameters from API (metadate, recursive)
+   *         description: Query parameters from API (metadata, recursive)
    *         schema:
    *           type: string
    *         style: form
@@ -194,13 +199,13 @@ const items = (app) => {
     const user = req.headers['x-openhab-user'];
     try {
         let response = await getItem(backendInfo.HOST, req, req.params.itemname);
-	const tempItem = response.json.members;
-	//recursive filtering of member items
-	if (Array.isArray(tempItem)) {
-	    response.json.members = [];
-	    const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem);
-	    response.json.members = tempMembers;
-	}
+        const tempItem = response.json.members;
+        //recursive filtering of member items
+        if (Array.isArray(tempItem)) {
+            response.json.members = [];
+            const tempMembers = await itemsFilterForClient(backendInfo.HOST, req, user, org, tempItem);
+            response.json.members = tempMembers;
+        }
         res.status(response.status).send(response.json);
     } catch (e) {
       console.info(e);
@@ -403,9 +408,9 @@ const items = (app) => {
     try {
       let filteredItems = [];
       for (const i in allItems) {
-	if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i]) === true) {
-	    filteredItems.push(allItems[i]);
-	}
+        if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i]) === true) {
+            filteredItems.push(allItems[i]);
+        }
       }
       const status = await sendEventsItems(backendInfo.HOST, req, req.params.connectionId, filteredItems);
       res.status(status).send();
@@ -415,6 +420,131 @@ const items = (app) => {
     }
   });
 
+
+  /**
+   * @swagger
+   * /chart?items={itemname}:
+   *   get:
+   *     summary: Gets BasicUI OH chart.
+   *     tags: [Sitemaps]
+   *     parameters:
+   *       - in: query
+   *         name: parameters
+   *         required: true
+   *         description: Query parameters (e.g. items)
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-USER
+   *         required: true
+   *         description: Name of user
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: header
+   *         name: X-OPENHAB-ORG
+   *         required: false
+   *         description: Organisations the user is member of
+   *         schema:
+   *           type: string
+   *         style: form
+   *     responses:
+   *       200:
+   *         description: OK
+   *       404:
+   *         description: Chart not found
+   */
+  app.get('/chart', requireHeader('X-OPENHAB-USER'), proxy(backendInfo.HOST + '/chart', {
+    proxyReqPathResolver: async (req) => {
+      const org = req.headers['x-openhab-org'] || '';
+      const user = req.headers['x-openhab-user'];
+      const reqPath = req.path;
+      let reqQuery = req.query;
+      
+      //filtering of chart items
+      if (reqQuery.hasOwnProperty('items')) {
+          let allItems = reqQuery.items;
+          if (typeof allItems === 'string') allItems = allItems.toString().split(',');
+          let filteredItems = [];
+          for (const i in allItems) {
+            if (await itemAllowedForClient(backendInfo.HOST, req, user, org, allItems[i]) === true) filteredItems.push(allItems[i]);
+          }
+          reqQuery.items = filteredItems.toString();
+      }
+      let updatedQuery = Object.entries(reqQuery).reduce((str, [p, val]) => {
+        return `${str}&${p}=${val}`;
+      }, '');
+      updatedQuery = updatedQuery.substring(1);
+      
+      return reqPath + ((updatedQuery) ? '?' + updatedQuery : '');
+    },
+    proxyErrorHandler: function(err, res, next) {
+      console.info(err);
+      res.status(500).send();
+    }
+  })); 
+
+  /**
+   * @swagger
+   * /analyzer/:
+   *   get:
+   *     summary: Analyze Item(s) using built-in OH analyzer. Requires nginx.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: query
+   *         name: items
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: query
+   *         name: parameters
+   *         required: false
+   *         description: Analyzer parameters (e.g. chartType)
+   *         schema:
+   *           type: string
+   *         style: form   
+   *     responses:
+   *       200:
+   *         description: OK
+   *       404:
+   *         description: Unknown Item or persistence service
+   */
+  
+  /**
+   * @swagger
+   * /rest/persistence/items/{itemname}:
+   *   get:
+   *     summary: Gets item persistence data from the persistence service. Requires nginx.
+   *     tags: [Items]
+   *     parameters:
+   *       - in: path
+   *         name: itemname
+   *         required: true
+   *         description: Item name
+   *         schema:
+   *           type: string
+   *         style: form
+   *       - in: query
+   *         name: parameters
+   *         required: false
+   *         description: Query parameters (e.g. serviceId, starttime, endtime, page, pagelength, boundary)
+   *         schema:
+   *           type: string
+   *         style: form   
+   *     responses:
+   *       200:
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       404:
+   *         description: Unknown Item or persistence service
+   */    
+  
 };
 
 export default items;

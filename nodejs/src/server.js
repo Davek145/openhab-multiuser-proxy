@@ -45,33 +45,34 @@ export const EVERYONE_OU = process.env.EVERYONE_OU || 'everyone';
  * Defaults to 300000 ms = 5 min.
  */
 export const CACHE_TIME = process.env.CACHE_TIME || 300000;
-
 /**
  * Time to cache ACL for sitemaps/pages/items in milliseconds.
  * Defaults to 3600000 ms = 60 min.
  */
 export const CACHE_TIME_ACL = process.env.CACHE_TIME_ACL || 3600000;
-
 /**
  * Prefix of the access control tag for Items and Pages.
  * Defaults to acl:
  */
 export const ACL_PREFIX = process.env.ACL_PREFIX || 'acl:';
 logger.debug(`Access control prefix is ${ACL_PREFIX}`);
-
 /**
  * Separates the organization name at beginning of Sitemap name from the full name.
- *
- * @memberof sitemapsSecurity
+ * Defaults to _org_
  */
 export const ORG_SEPARATOR = process.env.ORG_SEPARATOR || '_org_';
 logger.debug(`Organization separator is ${ORG_SEPARATOR}`);
-
+/**
+ * Disable/filter all Sitemaps for all clients. Usefull in case only MainUI is used.
+ * Defaults to true
+ */
+export const SITEMAPS_DISABLE = process.env.SITEMAPS_DISABLE || 'true';
 /**
  * Remove separators of empty section in filtered home page.
  * Defaults to true
  */
 export const HOME_SEPARATOR = process.env.HOME_SEPARATOR || 'true';
+
 
 const app = express();
 
