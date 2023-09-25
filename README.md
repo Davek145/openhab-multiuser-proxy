@@ -187,3 +187,6 @@ sudo ufw deny from any to any port 8080 comment "openHAB HTTP"
 sudo ufw deny from any to any port 8443 comment "openHAB HTTPS"
 sudo ufw deny from any to any port 8090 comment "openHAB Multi-User"
 ```
+
+## BrowserStack
+<small>[<img align="right" src="https://user-images.githubusercontent.com/2004147/30233170-35d19c3a-94f4-11e7-8540-894977d1c653.png">](https://www.browserstack.com/) This project is tested with [BrowserStack](https://www.browserstack.com/) .</small>
